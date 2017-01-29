@@ -1,8 +1,6 @@
 from tkinter import *
 
 
-
-	
 	
 def afficherJeu():
 	print(jeu)
@@ -11,13 +9,33 @@ def afficherJeu():
 
 def play():
 	global isPlay
-	
 	# Cette partie est rafraichie a 60fps
 	
+	actualiserMap()
 	
 	#Gere la fin
+	
+
+	
 	if(isPlay):
 		fen.after(17, play)
+
+
+
+def actualiserMap():
+	vide = PhotoImage(file ='Tile/void.png')
+	item = affichage.create_image(0, 0, image=vide)
+	
+	affichage.pack(side="top")
+	
+	#for i in range(nbTilesLargeur):
+		#for j in range(nbTilesHauteur):
+		#	affichage.create_image(j*tailleTile, i*tailleTile, image=vide)
+	
+	
+
+	
+	
 
 
 #=======================================================================
@@ -47,6 +65,9 @@ fen.title("PAC MAN")
 
 affichage = Canvas(fen, width=largeurAffichage, height= hauteurAffichage, bg="black")
 affichage.pack(side="top")
+
+
+
 
 #Gestion menu
 playButton = Button(fen, text="Play", command=play)
