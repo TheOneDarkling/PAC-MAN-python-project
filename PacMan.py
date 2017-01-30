@@ -1,17 +1,29 @@
 from tkinter import *
 
-
 	
 def afficherJeu():
 	print(jeu)
 	
+	
+
+def dessinerMap():
+	global jeu
+	for i in range(nbTilesLargeur+1):
+		for j in range(nbTilesHauteur+1):
+			if jeu[j][i] == 0:
+				affichage.create_image(i*tailleTile, j*tailleTile, image=vide)
+			else:
+				affichage.create_image(j*tailleTile, i*tailleTile, image=mur)
+	
+
 
 
 def play():
-	global isPlay
+	global isPlay, mapCreated
+	
 	# Cette partie est rafraichie a 60fps
 	
-	actualiserMap()
+	dessinerMap()
 	
 	#Gere la fin
 	
@@ -22,18 +34,19 @@ def play():
 
 
 
-def actualiserMap():
-	vide = PhotoImage(file ='Tile/void.png')
-	item = affichage.create_image(0, 0, image=vide)
-	
-	affichage.pack(side="top")
-	
-	#for i in range(nbTilesLargeur):
-		#for j in range(nbTilesHauteur):
-		#	affichage.create_image(j*tailleTile, i*tailleTile, image=vide)
-	
 	
 
+def mapTest():
+	global jeu
+	
+	for i in range(nbTilesLargeur+1):
+		for j in range(nbTilesHauteur+1):
+			if i == 0 or j == 0 or i == nbTilesHauteur or j == nbTilesLargeur or i == 1 or j == 1 or i == nbTilesHauteur-1 or j == nbTilesLargeur-1:
+				jeu[j][i] =1
+
+	
+	
+	
 	
 	
 
@@ -51,11 +64,15 @@ hauteurAffichage = tailleTile * nbTilesHauteur
 largeurAffichage = tailleTile * nbTilesLargeur
 
 isPlay = True
+mapCreated = False #Flag pour créer la map de base 
 
-
-jeu = [[0] * nbTilesLargeur for _ in range(nbTilesHauteur)]
 
 #Gestion plateau
+
+jeu = [[0] * (nbTilesLargeur+1) for _ in range(nbTilesHauteur+1)]
+
+mapTest()
+
 afficherJeu()
 
 
@@ -66,7 +83,9 @@ fen.title("PAC MAN")
 affichage = Canvas(fen, width=largeurAffichage, height= hauteurAffichage, bg="black")
 affichage.pack(side="top")
 
-
+#Les différantes TILES
+vide = PhotoImage(file ='Tile/void.png')
+mur = PhotoImage(file ='Tile/wall.png')
 
 
 #Gestion menu
