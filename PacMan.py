@@ -81,15 +81,21 @@ afficherJeu()
 fen = Tk()
 fen.title("PAC MAN")
 
-affichage = Canvas(fen, width=largeurAffichage, height= hauteurAffichage, bg="black")
+affichage = Canvas(fen, width=largeurAffichage, height= hauteurAffichage, bg="WHITE")
 affichage.pack(side="top")
+
+
 
 #Les différantes TILES
 vide = PhotoImage(file ='Tile/void.png')
 mur = PhotoImage(file ='Tile/wall.png')
 
 
+
 #Gestion menu
+playButton = Button(fen, text="Close", command=fen.quit)
+playButton.pack(side=RIGHT)
+
 playButton = Button(fen, text="Play", command=play)
 playButton.pack(side=RIGHT)
 
