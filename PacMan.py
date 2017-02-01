@@ -1,31 +1,39 @@
-###test commit
+
 from tkinter import *
 
 	
 def afficherJeu():
 	print(jeu)
-	
-	
 
-def dessinerMap():
+
+
+def gestionMap():
 	global jeu
-	for i in range(nbTilesLargeur+1):
-		for j in range(nbTilesHauteur+1):
-			if jeu[j][i] == 0:
-				affichage.create_image(i*tailleTile, j*tailleTile, image=vide)
-			else:
-				affichage.create_image(j*tailleTile, i*tailleTile, image=mur)
+	#for i in range(nbTilesLargeur+1):
+		#for j in range(nbTilesHauteur+1):
+			#if jeu[j][i] == 0:
+			#	affichage.create_image(i*tailleTile, j*tailleTile, image=vide)
+			#else:
+				#affichage.create_image(j*tailleTile, i*tailleTile, image=mur)
 	
-	affichage.create_image(200, 200, image=background)
+	
 
 
 
 def play():
 	global isPlay, mapCreated
 	
-	# Cette partie est rafraichie a 60fps
+	# On affiche la map 1 fois
+	if not mapCreated:
+		affichage.create_image(232, 256, image=background)
+		mapCreated = True
 	
-	dessinerMap()
+	
+	
+	# Cette partie est rafraichie a 60fps
+	gestionMap()
+	
+	
 	
 	#Gere la fin
 	
@@ -49,7 +57,18 @@ def mapTest():
 	
 	
 	
-	
+def etatJeu(): # Affiche la liste qui repertorie l'ensemble des pions
+	fen2 = Tk()
+	liste = []
+	for j in range(22-1):
+		for i in range(20-1):
+			liste.append(jeu[i][j]) 
+			
+		chaine = Label(fen2)
+		chaine.configure(text=str(liste))
+		chaine.pack()
+		liste.clear()
+
 	
 
 
@@ -58,9 +77,9 @@ def mapTest():
 #=======================================================================
 
 #Varibles utiles
-tailleTile = 16
-nbTilesHauteur = 30
-nbTilesLargeur = 30
+tailleTile = 23
+nbTilesHauteur = 22
+nbTilesLargeur = 20
 
 hauteurAffichage = tailleTile * nbTilesHauteur
 largeurAffichage = tailleTile * nbTilesLargeur
@@ -87,15 +106,17 @@ affichage.pack(side="top")
 
 
 
-#Les différantes TILES
-vide = PhotoImage(file ='Tile/void.png')
-mur = PhotoImage(file ='Tile/wall.png')
+# Ressources graphiques
+
 background = PhotoImage(file ='ressources/background.png')
 
 
 
 #Gestion menu
 playButton = Button(fen, text="Close", command=fen.quit)
+playButton.pack(side=RIGHT)
+
+playButton = Button(fen, text="Matrice", command=etatJeu)
 playButton.pack(side=RIGHT)
 
 playButton = Button(fen, text="Play", command=play)
