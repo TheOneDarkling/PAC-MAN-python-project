@@ -16,6 +16,7 @@ def dessinerMap():
 			else:
 				affichage.create_image(j*tailleTile, i*tailleTile, image=mur)
 	
+	affichage.create_image(200, 200, image=background)
 
 
 
@@ -89,6 +90,7 @@ affichage.pack(side="top")
 #Les différantes TILES
 vide = PhotoImage(file ='Tile/void.png')
 mur = PhotoImage(file ='Tile/wall.png')
+background = PhotoImage(file ='ressources/background.png')
 
 
 
