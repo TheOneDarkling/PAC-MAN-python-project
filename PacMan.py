@@ -1,8 +1,10 @@
 
 from tkinter import *
 
+
+
 	
-def afficherJeu():
+def afficherJeu():		
 	print(jeu)
 
 
@@ -25,15 +27,8 @@ def play():
 	
 	# On affiche la map 1 fois
 	if not mapCreated:
-		affichage.create_image(232, 256, image=background)
+		affichage.create_image(234, 273, image=background)
 		mapCreated = True
-		
-		#Cadriage
-		for i in range(nbTilesHauteur):
-			affichage.create_line(i*22, 0, i*22, 512, width=1, fill="white")
-			
-		for j in range(26):
-			affichage.create_line(0, j*20, 460, j*20, width=1, fill="white")
 	
 	
 	
@@ -51,22 +46,24 @@ def play():
 
 
 
-	
+def quadrier():
+	#Cadriage
+	for i in range(nbTilesLargeur):
+		affichage.create_line(i*26, 0, i*26, 548, width=1, fill="white")
+		
+	for j in range(nbTilesHauteur):
+		affichage.create_line(0, j*26, 468, j*26, width=1, fill="white")
 
-def mapTest():
-	global jeu
-	
-	
 
-	
+		
 	
 	
 def etatJeu(): # Affiche la liste qui repertorie l'ensemble des pions
 	fen2 = Tk()
 	liste = []
-	for j in range(22-1):
-		for i in range(20-1):
-			liste.append(jeu[i][j]) 
+	for j in range(nbTilesHauteur):
+		for i in range(nbTilesLargeur):
+			liste.append(jeu[j][i]) 
 			
 		chaine = Label(fen2)
 		chaine.configure(text=str(liste))
@@ -82,8 +79,8 @@ def etatJeu(): # Affiche la liste qui repertorie l'ensemble des pions
 
 #Varibles utiles
 tailleTile = 26
-nbTilesHauteur = 22
-nbTilesLargeur = 20
+nbTilesHauteur = 21
+nbTilesLargeur = 18
 
 hauteurAffichage = tailleTile * nbTilesHauteur
 largeurAffichage = tailleTile * nbTilesLargeur
@@ -94,9 +91,7 @@ mapCreated = False #Flag pour créer la map de base
 
 #Gestion plateau
 
-jeu = [[0] * (nbTilesLargeur+1) for _ in range(nbTilesHauteur+1)]
-
-mapTest()
+jeu = [[0] * (nbTilesLargeur) for _ in range(nbTilesHauteur)]
 
 afficherJeu()
 
@@ -105,15 +100,11 @@ afficherJeu()
 fen = Tk()
 fen.title("PAC MAN")
 
+import ressources
+background = PhotoImage(file ='ressources/map.png')
+
 affichage = Canvas(fen, width=largeurAffichage, height= hauteurAffichage, bg="WHITE")
 affichage.pack(side="top")
-
-
-
-# Ressources graphiques
-
-background = PhotoImage(file ='ressources/background.png')
-
 
 
 #Gestion menu
@@ -121,6 +112,9 @@ playButton = Button(fen, text="Close", command=fen.quit)
 playButton.pack(side=RIGHT)
 
 playButton = Button(fen, text="Matrice", command=etatJeu)
+playButton.pack(side=RIGHT)
+
+playButton = Button(fen, text="Quadrier", command=quadrier)
 playButton.pack(side=RIGHT)
 
 playButton = Button(fen, text="Play", command=play)
