@@ -59,6 +59,7 @@ def quadrier():
 	
 	
 def etatJeu(): # Affiche la liste qui repertorie l'ensemble des pions
+	mon_fichier = open("matrice.txt", "w")
 	fen2 = Tk()
 	liste = []
 	for j in range(nbTilesHauteur):
@@ -67,10 +68,12 @@ def etatJeu(): # Affiche la liste qui repertorie l'ensemble des pions
 			
 		chaine = Label(fen2)
 		chaine.configure(text=str(liste))
+		
+		
 		chaine.pack()
 		liste.clear()
-
-	
+	mon_fichier.write(str(jeu))
+	mon_fichier.close()
 
 
 #=======================================================================
