@@ -27,6 +27,13 @@ def play():
 	if not mapCreated:
 		affichage.create_image(232, 256, image=background)
 		mapCreated = True
+		
+		#Cadriage
+		for i in range(nbTilesHauteur):
+			affichage.create_line(i*22, 0, i*22, 512, width=1, fill="white")
+			
+		for j in range(26):
+			affichage.create_line(0, j*20, 460, j*20, width=1, fill="white")
 	
 	
 	
@@ -49,10 +56,7 @@ def play():
 def mapTest():
 	global jeu
 	
-	for i in range(nbTilesLargeur+1):
-		for j in range(nbTilesHauteur+1):
-			if i == 0 or j == 0 or i == nbTilesHauteur or j == nbTilesLargeur or i == 1 or j == 1 or i == nbTilesHauteur-1 or j == nbTilesLargeur-1:
-				jeu[j][i] =1
+	
 
 	
 	
@@ -77,7 +81,7 @@ def etatJeu(): # Affiche la liste qui repertorie l'ensemble des pions
 #=======================================================================
 
 #Varibles utiles
-tailleTile = 23
+tailleTile = 26
 nbTilesHauteur = 22
 nbTilesLargeur = 20
 
