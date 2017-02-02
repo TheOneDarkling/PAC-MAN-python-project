@@ -9,8 +9,8 @@ def afficherJeu():
 
 
 
-def gestionMap():
-	global jeu
+#def gestionMap():
+#	global jeu
 	#for i in range(nbTilesLargeur+1):
 		#for j in range(nbTilesHauteur+1):
 			#if jeu[j][i] == 0:
@@ -27,12 +27,12 @@ def play():
 	
 	# On affiche la map 1 fois
 	if not mapCreated:
-		affichage.create_image(234, 273, image=background)
+		affichage.create_image(234+15, 273, image=background)
 		mapCreated = True
 	
 	
 	
-	# Cette partie est rafraichie a 60fps
+	# Cette partie est rafraichie
 	gestionMap()
 	
 	
@@ -46,25 +46,29 @@ def play():
 
 
 
-def quadrier():
-	#Cadriage
+def quadrillage():
+	#quadrillage
 	for i in range(nbTilesLargeur):
-		affichage.create_line(i*26, 0, i*26, 548, width=1, fill="white")
+		affichage.create_line(i*tailleTile, 0, i*tailleTile, hauteurAffichage, width=1, fill="white")
 		
 	for j in range(nbTilesHauteur):
-		affichage.create_line(0, j*26, 468, j*26, width=1, fill="white")
+		affichage.create_line(0, j*tailleTile, largeurAffichage, j*tailleTile, width=1, fill="white")
 
 
 		
 	
 	
-def etatJeu(): # Affiche la liste qui repertorie l'ensemble des pions
-	mon_fichier = open("matrice.txt", "w")
+def etatJeu(): 
+# Creation d'une matrice et affichage
+	matrice = open("matrice.txt", "w")
 	fen2 = Tk()
 	liste = []
 	for j in range(nbTilesHauteur):
 		for i in range(nbTilesLargeur):
-			liste.append(jeu[j][i]) 
+			liste.append(jeu[j][i])
+			if (jeu[j][i] == 0) :
+				affichage.create_text(i*(tailleTile)+13, j*(tailleTile)+13,text ="0", fill ="red") 
+			 
 			
 		chaine = Label(fen2)
 		chaine.configure(text=str(liste))
@@ -72,8 +76,10 @@ def etatJeu(): # Affiche la liste qui repertorie l'ensemble des pions
 		
 		chaine.pack()
 		liste.clear()
-	mon_fichier.write(str(jeu))
-	mon_fichier.close()
+	#matrice.write(str(jeu))
+	matrice.close()
+	
+
 
 
 #=======================================================================
@@ -81,12 +87,12 @@ def etatJeu(): # Affiche la liste qui repertorie l'ensemble des pions
 #=======================================================================
 
 #Varibles utiles
-tailleTile = 26
-nbTilesHauteur = 21
-nbTilesLargeur = 18
+tailleTile = 26                           # images decoupé 16*16
+nbTilesHauteur = 21							
+nbTilesLargeur = 19
 
-hauteurAffichage = tailleTile * nbTilesHauteur
-largeurAffichage = tailleTile * nbTilesLargeur
+hauteurAffichage = tailleTile * nbTilesHauteur		#Taille de la fenetre
+largeurAffichage = tailleTile * nbTilesLargeur		#Taille de la fenetre
 
 isPlay = True
 mapCreated = False #Flag pour créer la map de base 
@@ -103,11 +109,14 @@ afficherJeu()
 fen = Tk()
 fen.title("PAC MAN")
 
-import ressources
-background = PhotoImage(file ='ressources/map.png')
+
+background = PhotoImage(file ='ressources/mapv2.png')
 
 affichage = Canvas(fen, width=largeurAffichage, height= hauteurAffichage, bg="WHITE")
 affichage.pack(side="top")
+
+
+
 
 
 #Gestion menu
@@ -117,7 +126,7 @@ playButton.pack(side=RIGHT)
 playButton = Button(fen, text="Matrice", command=etatJeu)
 playButton.pack(side=RIGHT)
 
-playButton = Button(fen, text="Quadrier", command=quadrier)
+playButton = Button(fen, text="quadrillage", command=quadrillage)
 playButton.pack(side=RIGHT)
 
 playButton = Button(fen, text="Play", command=play)
