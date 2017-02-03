@@ -1,7 +1,9 @@
 
 from tkinter import *
+import fantomeRouge
+import constantes
 
-
+### FONCTIONS JEU
 
 def play():
 	global isPlay, mapCreated
@@ -9,11 +11,15 @@ def play():
 	# On affiche la map 1 fois
 	if not mapCreated:
 		affichage.create_image(234+15, 273, image=background)
+		afficherPacGommes()
+		
+		fantomeRouge.init(affichage)
+		
 		mapCreated = True
 	
 	# Cette partie est rafraichie 60 fois par secondes
 	
-	
+	fantomeRouge.gestion()
 	
 	
 	#Gere la fin
@@ -25,6 +31,10 @@ def play():
 
 
 
+
+
+### FONCTION STRUCTURE DE DONNéES
+
 def quadrillage():
 	#quadrillage
 	for i in range(nbTilesLargeur):
@@ -34,10 +44,10 @@ def quadrillage():
 		affichage.create_line(0, j*tailleTile, largeurAffichage, j*tailleTile, width=1, fill="white")
 
 
-		
-	
-	
-def etatJeu(): 
+
+
+
+def etatJeu():
 # Creation d'une matrice et affichage
 	fen2 = Tk()
 	liste = []
@@ -45,10 +55,17 @@ def etatJeu():
 		for i in range(nbTilesLargeur):
 			liste.append(jeu[j][i])
 			if (jeu[j][i] == 0) :
-				affichage.create_text(i*(tailleTile)+13, j*(tailleTile)+13,text ="0", fill ="green")
-			if (jeu[j][i] == 1) :
-				affichage.create_text(i*(tailleTile)+13, j*(tailleTile)+13,text ="1", fill ="red") 
-			 
+				affichage.create_text(i*(tailleTile)+13, j*(tailleTile)+13,text ="0", fill ="white")
+			elif (jeu[j][i] == 1) :
+				affichage.create_text(i*(tailleTile)+13, j*(tailleTile)+13,text ="1", fill ="green")
+			elif (jeu[j][i] == 2) :
+				affichage.create_text(i*(tailleTile)+13, j*(tailleTile)+13,text ="2", fill ="yellow")
+			elif (jeu[j][i] == 3) :
+				affichage.create_text(i*(tailleTile)+13, j*(tailleTile)+13,text ="3", fill ="grey") 
+			elif (jeu[j][i] == 4) :
+				affichage.create_text(i*(tailleTile)+13, j*(tailleTile)+13,text ="4", fill ="brown") 
+			elif (jeu[j][i] == 5) :
+				affichage.create_text(i*(tailleTile)+13, j*(tailleTile)+13,text ="5", fill ="red")
 			
 		chaine = Label(fen2)
 		chaine.configure(text=str(liste))
@@ -59,6 +76,46 @@ def etatJeu():
 	#matrice.write(str(jeu))
 	
 	
+	
+	
+	
+##FONCTIONS PAC GOMMES
+
+def afficherPacGommes():
+	global listePacGommes
+	
+	
+	for j in range(nbTilesHauteur):
+		for i in range(nbTilesLargeur):
+			if jeu[j][i] == 3:
+				listePacGommes[j][i] = affichage.create_oval(i*tailleTile+rayonPacGomme, j*tailleTile+rayonPacGomme, i*tailleTile+tailleTile-rayonPacGomme, j*tailleTile+tailleTile-rayonPacGomme, fill="grey")
+			elif jeu[j][i] == 4:
+				listePacGommes[j][i] = affichage.create_oval(i*tailleTile+rayonSuperPacGomme, j*tailleTile+rayonSuperPacGomme, i*tailleTile+tailleTile-rayonSuperPacGomme, j*tailleTile+tailleTile-rayonSuperPacGomme, fill="grey")
+
+	print(listePacGommes)
+		
+
+	
+	
+	
+	
+	
+	
+	
+### AUTRES
+
+def test():
+	global cpt, lol
+	
+	if cpt%2 == 0:
+		lol = affichage.create_oval(0, 0, 100, 100, fill="red")
+	else:
+		affichage.delete(fen, lol);
+		
+	cpt +=1
+		
+
+
 
 
 
@@ -67,9 +124,11 @@ def etatJeu():
 #=======================================================================
 
 #Varibles utiles
-tailleTile = 26                           # images decoupé 16*16
-nbTilesHauteur = 21							
-nbTilesLargeur = 19
+tailleTile = constantes.tailleTile                           # images decoupé 16*16
+nbTilesHauteur = constantes.nbTilesHauteur							
+nbTilesLargeur = constantes.nbTilesLargeur
+rayonPacGomme = constantes.rayonPacGomme # + --> Plus petit   - --> Plus grand
+rayonSuperPacGomme = constantes.rayonSuperPacGomme
 
 hauteurAffichage = tailleTile * nbTilesHauteur		#Taille de la fenetre
 largeurAffichage = tailleTile * nbTilesLargeur		#Taille de la fenetre
@@ -80,30 +139,43 @@ mapCreated = False #Flag pour créer la map de base
 
 #Remplir matrice
 
-#jeu = [[0] * (nbTilesLargeur) for _ in range(nbTilesHauteur)]
 
 jeu = []
 jeu.append([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1])
-jeu.append([1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1])
-jeu.append([1,0,1,1,0,1,1,1,0,1,0,1,1,1,0,1,1,0,1])
-jeu.append([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1])
-jeu.append([1,0,1,1,0,1,0,1,1,1,1,1,0,1,0,1,1,0,1])
-jeu.append([1,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,1])
-jeu.append([1,1,1,1,0,1,1,1,0,1,0,1,1,1,0,1,1,1,1])
-jeu.append([0,0,0,1,0,1,0,0,0,0,0,0,0,1,0,1,0,0,0])
-jeu.append([1,1,1,1,0,1,0,1,1,1,1,1,0,1,0,1,1,1,1])
-jeu.append([0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0])
-jeu.append([1,1,1,1,0,1,0,1,1,1,1,1,0,1,0,1,1,1,1])
-jeu.append([0,0,0,1,0,1,0,0,0,0,0,0,0,1,0,1,0,0,0])
-jeu.append([1,1,1,1,0,1,0,1,1,1,1,1,0,1,0,1,1,1,1])
-jeu.append([1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1])
-jeu.append([1,0,1,1,0,1,1,1,0,1,0,1,1,1,0,1,1,0,1])
-jeu.append([1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1])
-jeu.append([1,1,0,1,0,1,0,1,1,1,1,1,0,1,0,1,0,1,1])
-jeu.append([1,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,1])
-jeu.append([1,0,1,1,1,1,1,1,0,1,0,1,1,1,1,1,1,0,1])
-jeu.append([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1])
+jeu.append([1,3,3,3,3,3,3,3,3,1,3,3,3,3,3,3,3,3,1])
+jeu.append([1,4,1,1,3,1,1,1,3,1,3,1,1,1,3,1,1,4,1])
+jeu.append([1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1])
+jeu.append([1,3,1,1,3,1,3,1,1,1,1,1,3,1,3,1,1,3,1])
+jeu.append([1,3,3,3,3,1,3,3,3,1,3,3,3,1,3,3,3,3,1])
+jeu.append([1,1,1,1,3,1,1,1,0,1,0,1,1,1,3,1,1,1,1])
+jeu.append([0,0,0,1,3,1,0,0,0,5,0,0,0,1,3,1,0,0,0])
+jeu.append([1,1,1,1,3,1,0,1,1,1,1,1,0,1,3,1,1,1,1])
+jeu.append([0,0,0,0,3,0,0,1,0,0,0,1,0,0,3,0,0,0,0])
+jeu.append([1,1,1,1,3,1,0,1,1,1,1,1,0,1,3,1,1,1,1])
+jeu.append([0,0,0,1,3,1,0,0,0,0,0,0,0,1,3,1,0,0,0])
+jeu.append([1,1,1,1,3,1,0,1,1,1,1,1,0,1,3,1,1,1,1])
+jeu.append([1,3,3,3,3,3,3,3,3,1,3,3,3,3,3,3,3,3,1])
+jeu.append([1,3,1,1,3,1,1,1,3,1,3,1,1,1,3,1,1,3,1])
+jeu.append([1,4,3,1,3,3,3,3,3,2,3,3,3,3,3,1,3,4,1])
+jeu.append([1,1,3,1,3,1,3,1,1,1,1,1,3,1,3,1,3,1,1])
+jeu.append([1,3,3,3,3,1,3,3,3,1,3,3,3,1,3,3,3,3,1])
+jeu.append([1,3,1,1,1,1,1,1,3,1,3,1,1,1,1,1,1,3,1])
+jeu.append([1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1])
 jeu.append([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1])
+
+
+############DESCRIPTION###########
+# 0 = ESPACE VIDE
+# 1 = MUR
+# 2 = PAC MAN
+# 3 = PAC-GOMME
+# 4 = SUPER-PAC-GOMME
+# 5 = BLINKY(fantome rouge)
+# 6 = PINKY(fantome rose)
+# 7 = INKY(fantome bleu)
+# 8 = CLYDE(fantome orange)
+
+listePacGommes = [[0] * nbTilesLargeur for _ in range(nbTilesHauteur)]
 
 
 #Gestion fenetre
@@ -131,6 +203,12 @@ playButton = Button(fen, text="quadrillage", command=quadrillage)
 playButton.pack(side=RIGHT)
 
 playButton = Button(fen, text="Play", command=play)
+playButton.pack(side=RIGHT)
+
+#Bouton test ne sert a rien pour le jeu
+cpt = 0
+
+playButton = Button(fen, text="test", command=test)
 playButton.pack(side=RIGHT)
 
 
