@@ -13,25 +13,42 @@ def stop_it():
     "Arrêt de l'animation" 
     global flag 
     flag =0 
+    
+    
+def img(cpt):
+	if cpt == 0:
+		img = can.create_image(x, y, anchor=NW, image=pacmanleft)
+	elif cpt == 1:
+		img = can.create_image(x, y, anchor=NW, image=pacmanright)
+	elif cpt == 2:
+		img = can.create_image(x, y, anchor=NW, image=pacmantop)
+	elif cpt == 3:
+		img = can.create_image(x, y, anchor=NW, image=pacmanbot)
+
 
 def go_left(event =None): 
     "délacement vers la gauche" 
     global dx, dy 
-    dx, dy = -1, 0 
+    dx, dy = -1, 0
+img(0)
+	
 
 def go_right(event =None): 
     global dx, dy 
     dx, dy = 1, 0 
+img(1)
 
 def go_up(event =None): 
     "déplacement vers le haut" 
     global dx, dy 
     dx, dy = 0, -1 
+img(2)
     
 def go_down(event =None): 
     global dx, dy 
-    dx, dy = 0, 1 
-    
+    dx, dy = 0, 1
+img(3)
+ 
 def move(): 
     "Animation du serpent par récursivité" 
     global flag 

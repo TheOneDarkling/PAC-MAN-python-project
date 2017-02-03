@@ -14,27 +14,42 @@ def stop_it():
     flag =0 
 # Fonctions de mouvement
 
+def move():
+	can.coords(img, x, y)
+	
+
+
+def img(cpt):
+	if cpt == 0:
+		img = can.create_image(x, y, anchor=NW, image=pacmanleft)
+	elif cpt == 1:
+		img = can.create_image(x, y, anchor=NW, image=pacmanright)
+	elif cpt == 2:
+		img = can.create_image(x, y, anchor=NW, image=pacmantop)
+	elif cpt == 3:
+		img = can.create_image(x, y, anchor=NW, image=pacmanbot)
+
+
 def go_left(event =None):
 	global x, y, x2, x2, depl
 	x-=depl
 	#x2-=depl
-	
 	if limite():
-		can.create_image(x, y, anchor=NW, image=pacmanleft)
-		#can.coords(pleft, x, y)
+		img(0)
+		
 	else:
 		x+=depl
 		#x2+=depl
 
-	
 
 def go_right(event =None):
 	global x, y, x2, x2, depl
 	x+=depl
 	#x2+=depl
+	
 	if limite():
-		can.create_image(x, y, anchor=NW, image=pacmanright)
-		#can.coords(pleft, x, y)
+		img(1)
+		
 	else:
 		x-=depl
 		#x2-=depl
@@ -44,9 +59,10 @@ def go_up(event =None):
 	global x, y, x2, y2, depl
 	y-=depl
 	#y2-=depl
+	
 	if limite():
-		can.create_image(x, y, anchor=NW, image=pacmantop)
-		#can.coords(pleft, x, y)
+		img(2)
+		
 	else:
 		y+=depl
 		#y2+=depl
@@ -56,9 +72,10 @@ def go_down(event =None):
 	global x, y, x2, y2, depl
 	y+=depl
 	#y2+=depl
+	
 	if limite():
-		can.create_image(x, y, anchor=NW, image=pacmanbot)
-		
+		img(3)
+			
 	else:
 		y-=depl
 		#y2-=depl
@@ -86,6 +103,7 @@ fen.title("Tk N.VF && T.R")
 
 
 #Variables utiles
+
 flag =0   
 taille = 40
 x, y = 200, 200
@@ -123,6 +141,7 @@ bou1 = Button(fen,text='Quitter', width =8, command=fen.destroy)
 bou1.pack(side=BOTTOM)
 
 # Deplacements
+
 
 fen.bind("<Left>", go_left)          
 fen.bind("<Right>", go_right)       
