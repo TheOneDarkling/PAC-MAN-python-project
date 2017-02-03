@@ -92,7 +92,6 @@ def afficherPacGommes():
 			elif jeu[j][i] == 4:
 				listePacGommes[j][i] = affichage.create_oval(i*tailleTile+rayonSuperPacGomme, j*tailleTile+rayonSuperPacGomme, i*tailleTile+tailleTile-rayonSuperPacGomme, j*tailleTile+tailleTile-rayonSuperPacGomme, fill="grey")
 
-	print(listePacGommes)
 		
 
 	
