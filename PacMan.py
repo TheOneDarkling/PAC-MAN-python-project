@@ -3,25 +3,6 @@ from tkinter import *
 
 
 
-	
-def afficherJeu():		
-	print(jeu)
-
-
-
-#def gestionMap():
-#	global jeu
-	#for i in range(nbTilesLargeur+1):
-		#for j in range(nbTilesHauteur+1):
-			#if jeu[j][i] == 0:
-			#	affichage.create_image(i*tailleTile, j*tailleTile, image=vide)
-			#else:
-				#affichage.create_image(j*tailleTile, i*tailleTile, image=mur)
-	
-	
-
-
-
 def play():
 	global isPlay, mapCreated
 	
@@ -30,10 +11,8 @@ def play():
 		affichage.create_image(234+15, 273, image=background)
 		mapCreated = True
 	
+	# Cette partie est rafraichie 60 fois par secondes
 	
-	
-	# Cette partie est rafraichie
-	gestionMap()
 	
 	
 	
@@ -60,14 +39,15 @@ def quadrillage():
 	
 def etatJeu(): 
 # Creation d'une matrice et affichage
-	matrice = open("matrice.txt", "w")
 	fen2 = Tk()
 	liste = []
 	for j in range(nbTilesHauteur):
 		for i in range(nbTilesLargeur):
 			liste.append(jeu[j][i])
 			if (jeu[j][i] == 0) :
-				affichage.create_text(i*(tailleTile)+13, j*(tailleTile)+13,text ="0", fill ="red") 
+				affichage.create_text(i*(tailleTile)+13, j*(tailleTile)+13,text ="0", fill ="green")
+			if (jeu[j][i] == 1) :
+				affichage.create_text(i*(tailleTile)+13, j*(tailleTile)+13,text ="1", fill ="red") 
 			 
 			
 		chaine = Label(fen2)
@@ -77,7 +57,7 @@ def etatJeu():
 		chaine.pack()
 		liste.clear()
 	#matrice.write(str(jeu))
-	matrice.close()
+	
 	
 
 
@@ -98,11 +78,32 @@ isPlay = True
 mapCreated = False #Flag pour créer la map de base 
 
 
-#Gestion plateau
+#Remplir matrice
 
-jeu = [[0] * (nbTilesLargeur) for _ in range(nbTilesHauteur)]
+#jeu = [[0] * (nbTilesLargeur) for _ in range(nbTilesHauteur)]
 
-afficherJeu()
+jeu = []
+jeu.append([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1])
+jeu.append([1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1])
+jeu.append([1,0,1,1,0,1,1,1,0,1,0,1,1,1,0,1,1,0,1])
+jeu.append([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1])
+jeu.append([1,0,1,1,0,1,0,1,1,1,1,1,0,1,0,1,1,0,1])
+jeu.append([1,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,1])
+jeu.append([1,1,1,1,0,1,1,1,0,1,0,1,1,1,0,1,1,1,1])
+jeu.append([0,0,0,1,0,1,0,0,0,0,0,0,0,1,0,1,0,0,0])
+jeu.append([1,1,1,1,0,1,0,1,1,1,1,1,0,1,0,1,1,1,1])
+jeu.append([0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0])
+jeu.append([1,1,1,1,0,1,0,1,1,1,1,1,0,1,0,1,1,1,1])
+jeu.append([0,0,0,1,0,1,0,0,0,0,0,0,0,1,0,1,0,0,0])
+jeu.append([1,1,1,1,0,1,0,1,1,1,1,1,0,1,0,1,1,1,1])
+jeu.append([1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1])
+jeu.append([1,0,1,1,0,1,1,1,0,1,0,1,1,1,0,1,1,0,1])
+jeu.append([1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1])
+jeu.append([1,1,0,1,0,1,0,1,1,1,1,1,0,1,0,1,0,1,1])
+jeu.append([1,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,1])
+jeu.append([1,0,1,1,1,1,1,1,0,1,0,1,1,1,1,1,1,0,1])
+jeu.append([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1])
+jeu.append([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1])
 
 
 #Gestion fenetre
