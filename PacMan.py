@@ -6,20 +6,20 @@ import constantes
 ### FONCTIONS JEU
 
 def play():
-	global isPlay, mapCreated
+	global isPlay, mapCreated, blinky
 	
 	# On affiche la map 1 fois
 	if not mapCreated:
 		affichage.create_image(234+15, 273, image=background)
 		afficherPacGommes()
 		
-		fantomeRouge.init(affichage)
+		blinky = fantomeRouge.init(affichage)
 		
 		mapCreated = True
 	
 	# Cette partie est rafraichie 60 fois par secondes
 	
-	fantomeRouge.gestion()
+	fantomeRouge.gestion(affichage, blinky, jeu)
 	
 	
 	#Gere la fin
@@ -176,6 +176,7 @@ jeu.append([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1])
 
 listePacGommes = [[0] * nbTilesLargeur for _ in range(nbTilesHauteur)]
 
+blinky = 0
 
 #Gestion fenetre
 fen = Tk()

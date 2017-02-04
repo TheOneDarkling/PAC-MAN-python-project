@@ -3,9 +3,10 @@
 ### Constantes
 
 HAUT = 0
-BAT = 1
+BAS = 1
 DROITE = 2
 GAUCHE = 3
+STOP = 4
 
 
 
