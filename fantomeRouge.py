@@ -103,18 +103,55 @@ def changerMatrice(jeu):
 def gestionDirection(jeu):
 	global direction
 	
+	########################
 	#Test si il y  a un mur
+	########################
+	
+	
 	if direction == constantes.HAUT and jeu[caseY-1][caseX] == 1:
-		direction = constantes.STOP
+		if jeu[caseY][caseX+1] == 1:
+			direction = constantes.GAUCHE
+		elif jeu[caseY][caseX-1] == 1:
+			direction = constantes.DROITE
+		else:
+			direction = constantes.GAUCHE
+			###### CHOIX
+		
 	elif direction == constantes.BAS and jeu[caseY+1][caseX] == 1:
-		direction = constantes.STOP
-	elif direction == constantes.DROITE and jeu[caseY][caseX+1] == 1:
-		direction = constantes.STOP
+		if jeu[caseY][caseX+1] == 1:
+			direction = constantes.GAUCHE
+		elif jeu[caseY][caseX-1] == 1:
+			direction = constantes.DROITE
+		else:
+			direction = constantes.GAUCHE
+			
+		
+	elif direction == constantes.DROITE and jeu[caseY][caseX+1] == 1: # SI MUR A DROITE
+		if jeu[caseY-1][caseX] == 1:
+			direction = constantes.BAS
+		elif jeu[caseY+1][caseX] == 1:
+			direction = constantes.HAUT
+		else:
+			direction = constantes.HAUT
+			###### CHOIX
+		
 	elif direction == constantes.GAUCHE and jeu[caseY][caseX-1] == 1:
-		direction = constantes.STOP
+		if jeu[caseY-1][caseX] == 1:
+			direction = constantes.BAS
+		elif jeu[caseY+1][caseX] == 1:
+			direction = constantes.HAUT
+		else:
+			direction = constantes.HAUT
+			###### CHOIX
+			
+			
+	#############################
+	#Test s'il y a un choix de dir
+	#############################
+	
+	#if 
 
-	#else:
-	#	direction = constantes.DROITE
+
 
 
 

@@ -16,7 +16,8 @@ def play():
 		blinky = fantomeRouge.init(affichage)
 		
 		mapCreated = True
-	affichage.create_image(234+8, 390+8, anchor=NW, image=pcl1)
+		affichage.create_image(234+8, 390+8, anchor=NW, image=pcl1)
+		
 	# Cette partie est rafraichie 60 fois par secondes
 	
 	fantomeRouge.gestion(affichage, blinky, jeu)
