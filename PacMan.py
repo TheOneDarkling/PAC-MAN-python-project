@@ -2,6 +2,7 @@
 from tkinter import *
 import fantomeRouge
 import constantes
+import pac
 
 ### FONCTIONS JEU
 
@@ -16,10 +17,10 @@ def play():
 		blinky = fantomeRouge.init(affichage)
 		
 		mapCreated = True
-		affichage.create_image(234+8, 390+8, anchor=NW, image=pcl1)
+		
 		
 	# Cette partie est rafraichie 60 fois par secondes
-	
+	image = affichage.create_image(234+8, 390+8, anchor=NW, image=pcl1)
 	fantomeRouge.gestion(affichage, blinky, jeu)
 	
 	
@@ -30,8 +31,57 @@ def play():
 	if(isPlay):
 		fen.after(17, play)
 
+###Deplacement###
+def img(cpt):
+	global image
+	if cpt == 0:
+		image = can.create_image(x, y, anchor=NW, image=pcl1)
+	elif cpt == 1:
+		image = can.create_image(x, y, anchor=NW, image=pcr1)
+	elif cpt == 2:
+		image = can.create_image(x, y, anchor=NW, image=pct1)
+	elif cpt == 3:
+		image = can.create_image(x, y, anchor=NW, image=pcd1)
 
+def go_left(event =None):
+	global x
+	x+=depl
+	if limite():
+		can.delete(image)
+		img(3)		
+	
+		
+	
+def go_right(event =None):
+	global x
+	x-=depl
+	if limite():
+		can.delete(image)
+		img(3)
+	
+		
+	
 
+def go_up(event =None):
+	global y
+	y-=depl
+	if limite():
+		can.delete(image)
+		img(3)	
+	
+		
+	
+
+def go_down(event =None):
+	global y
+	y+=depl
+	if limite():
+		
+		can.delete(image)
+		img(3)
+	
+def limite():
+	print ("dd")
 
 
 ### FONCTION STRUCTURE DE DONNéES
@@ -75,60 +125,6 @@ def etatJeu():
 		chaine.pack()
 		liste.clear()
 	#matrice.write(str(jeu))
-	
-	
-	
-###deplacement
-
-#def img(cpt):
-#	global image
-#	if cpt == 0:
-#		image = can.create_image(x, y, anchor=NW, image=pacmanleft)
-#	elif cpt == 1:
-#		image = can.create_image(x, y, anchor=NW, image=pacmanright)
-#	elif cpt == 2:
-#		image = can.create_image(x, y, anchor=NW, image=pacmantop)
-#	elif cpt == 3:
-#		image = can.create_image(x, y, anchor=NW, image=pacmanbot)
-	
-#def go_left(event =None):
-#	if limite():
-#		can.delete(image)
-#		img(3)		
-#	else:
-#		
-		
-#def go_right(event =None):
-#	if limite():
-#		can.delete(image)
-#		img(3)
-#	else:
-#		
-		
-	
-#def go_up(event =None):
-#	if limite():
-#		can.delete(image)
-#		img(3)	
-#	else:
-#		
-		
-	
-#def go_down(event =None):
-#	if limite():
-#		can.delete(image)
-#		img(3)
-#	else:
-#		
-		
-	
-#def limite():
-#	if jeu[i][j] == 3:
-#		return True
-#	else:
-#		return False
-			
-	
 	
 ##FONCTIONS PAC GOMMES
 
@@ -187,6 +183,8 @@ isPlay = True
 mapCreated = False #Flag pour créer la map de base 
 
 
+depl = 13
+x, y = 234, 390
 #Remplir matrice
 
 
@@ -240,7 +238,9 @@ affichage = Canvas(fen, width=largeurAffichage, height= hauteurAffichage, bg="WH
 affichage.pack(side="top")
 
 pcl1 = PhotoImage(file="ressources/pictures/pac-man/pacman-l 4.gif")
-
+pcr1 = PhotoImage(file="ressources/pictures/pac-man/pacman-r 1.gif")
+pcu1 = PhotoImage(file="ressources/pictures/pac-man/pacman-u 1.gif")
+pcd1 = PhotoImage(file="ressources/pictures/pac-man/pacman-d 1.gif")
 
 
 
@@ -266,9 +266,9 @@ playButton.pack(side=RIGHT)
 # Deplacements
 image = None
 
-#fen.bind("<Left>", go_left)          
-#fen.bind("<Right>", go_right)       
-#fen.bind("<Up>", go_up)            
-#fen.bind("<Down>", go_down)
+fen.bind("<Left>", go_left)          
+fen.bind("<Right>", go_right)       
+fen.bind("<Up>", go_up)            
+fen.bind("<Down>", go_down)
 
 fen.mainloop()
