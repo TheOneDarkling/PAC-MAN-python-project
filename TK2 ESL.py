@@ -14,27 +14,31 @@ def stop_it():
     flag =0 
 # Fonctions de mouvement
 
-def move():
-	can.coords(img, x, y)
+#def test(image):
+	
+	
 	
 
 
 def img(cpt):
+	global image
 	if cpt == 0:
-		img = can.create_image(x, y, anchor=NW, image=pacmanleft)
+		image = can.create_image(x, y, anchor=NW, image=pacmanleft)
 	elif cpt == 1:
-		img = can.create_image(x, y, anchor=NW, image=pacmanright)
+		image = can.create_image(x, y, anchor=NW, image=pacmanright)
 	elif cpt == 2:
-		img = can.create_image(x, y, anchor=NW, image=pacmantop)
+		image = can.create_image(x, y, anchor=NW, image=pacmantop)
 	elif cpt == 3:
-		img = can.create_image(x, y, anchor=NW, image=pacmanbot)
+		image = can.create_image(x, y, anchor=NW, image=pacmanbot)
+	
 
 
 def go_left(event =None):
-	global x, y, x2, x2, depl
+	global x, y, x2, x2, depl, image
 	x-=depl
 	#x2-=depl
 	if limite():
+		can.delete(image)
 		img(0)
 		
 	else:
@@ -48,6 +52,7 @@ def go_right(event =None):
 	#x2+=depl
 	
 	if limite():
+		can.delete(image)
 		img(1)
 		
 	else:
@@ -61,6 +66,8 @@ def go_up(event =None):
 	#y2-=depl
 	
 	if limite():
+		can.delete(image)
+		
 		img(2)
 		
 	else:
@@ -74,6 +81,8 @@ def go_down(event =None):
 	#y2+=depl
 	
 	if limite():
+		can.delete(image)
+		
 		img(3)
 			
 	else:
@@ -124,7 +133,7 @@ bou2.pack(side =LEFT)
 
 pacmanleft = PhotoImage(file="ressources/pictures/pac-man/pacman-l 4.gif")
 pleft = can.create_image(x, y, anchor=NW, image=pacmanleft)
-
+can.delete(pleft)
 
 pacmanright = PhotoImage(file="ressources/pictures/pac-man/pacman-r 4.gif")
 #pright = can.create_image(x, y, anchor=NW, image=pacmanright)
@@ -141,7 +150,7 @@ bou1 = Button(fen,text='Quitter', width =8, command=fen.destroy)
 bou1.pack(side=BOTTOM)
 
 # Deplacements
-
+image = None
 
 fen.bind("<Left>", go_left)          
 fen.bind("<Right>", go_right)       

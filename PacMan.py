@@ -16,7 +16,7 @@ def play():
 		blinky = fantomeRouge.init(affichage)
 		
 		mapCreated = True
-	
+	affichage.create_image(234+8, 390+8, anchor=NW, image=pcl1)
 	# Cette partie est rafraichie 60 fois par secondes
 	
 	fantomeRouge.gestion(affichage, blinky, jeu)
@@ -77,6 +77,56 @@ def etatJeu():
 	
 	
 	
+###deplacement
+
+#def img(cpt):
+#	global image
+#	if cpt == 0:
+#		image = can.create_image(x, y, anchor=NW, image=pacmanleft)
+#	elif cpt == 1:
+#		image = can.create_image(x, y, anchor=NW, image=pacmanright)
+#	elif cpt == 2:
+#		image = can.create_image(x, y, anchor=NW, image=pacmantop)
+#	elif cpt == 3:
+#		image = can.create_image(x, y, anchor=NW, image=pacmanbot)
+	
+#def go_left(event =None):
+#	if limite():
+#		can.delete(image)
+#		img(3)		
+#	else:
+#		
+		
+#def go_right(event =None):
+#	if limite():
+#		can.delete(image)
+#		img(3)
+#	else:
+#		
+		
+	
+#def go_up(event =None):
+#	if limite():
+#		can.delete(image)
+#		img(3)	
+#	else:
+#		
+		
+	
+#def go_down(event =None):
+#	if limite():
+#		can.delete(image)
+#		img(3)
+#	else:
+#		
+		
+	
+#def limite():
+#	if jeu[i][j] == 3:
+#		return True
+#	else:
+#		return False
+			
 	
 	
 ##FONCTIONS PAC GOMMES
@@ -188,6 +238,7 @@ background = PhotoImage(file ='ressources/mapv2.png')
 affichage = Canvas(fen, width=largeurAffichage, height= hauteurAffichage, bg="WHITE")
 affichage.pack(side="top")
 
+pcl1 = PhotoImage(file="ressources/pictures/pac-man/pacman-l 4.gif")
 
 
 
@@ -211,5 +262,12 @@ cpt = 0
 playButton = Button(fen, text="test", command=test)
 playButton.pack(side=RIGHT)
 
+# Deplacements
+image = None
+
+#fen.bind("<Left>", go_left)          
+#fen.bind("<Right>", go_right)       
+#fen.bind("<Up>", go_up)            
+#fen.bind("<Down>", go_down)
 
 fen.mainloop()

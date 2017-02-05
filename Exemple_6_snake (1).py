@@ -17,12 +17,16 @@ def stop_it():
     
 def img(cpt):
 	if cpt == 0:
+		can.delete(fen, img);
 		img = can.create_image(x, y, anchor=NW, image=pacmanleft)
 	elif cpt == 1:
+		can.delete(fen, img);
 		img = can.create_image(x, y, anchor=NW, image=pacmanright)
 	elif cpt == 2:
+		can.delete(fen, img);
 		img = can.create_image(x, y, anchor=NW, image=pacmantop)
 	elif cpt == 3:
+		can.delete(fen, img);
 		img = can.create_image(x, y, anchor=NW, image=pacmanbot)
 
 
