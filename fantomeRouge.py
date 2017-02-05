@@ -19,8 +19,8 @@ typeDeCaseAvant = 0 # Permet de remettre la bonne case dans la matrice
 choixDirection = True
 
 
-pacmanCaseX = 8
-pacmanCaseY = 8
+pacmanCaseX = 9 # pour les test
+pacmanCaseY = 15
 
 
 #### Fonctions
@@ -59,7 +59,6 @@ def gestion(affichage, blinky, jeu):
 	if choixDirection:
 		gestionDirection(jeu)
 		choixDirection = False
-		print("CHOIX DIRECTION")
 	
 	
 	################
@@ -98,6 +97,8 @@ def changerMatrice(jeu):
 	jeu[caseYAvant][caseXAvant] = typeDeCaseAvant
 	typeDeCaseAvant = jeu[caseY][caseX]
 	jeu[caseY][caseX] = 5
+	
+	
 	
 	
 	
@@ -170,7 +171,7 @@ def gestionDirection(jeu):
 			direction = constantes.HAUT
 			###### CHOIX GAUCHE OU HAUT
 			
-	elif direction == constantes.BAS and jeu[caseY+1][caseX] == 0:  # Croisement direction = HAUT
+	elif direction == constantes.BAS and jeu[caseY+1][caseX] == 0:  # Croisement direction = BAS
 		if jeu[caseY][caseX+1] == 0  and jeu[caseY][caseX-1] == 0:
 			direction = constantes.BAS
 			###### CHOIX DROITE OU GAUCHE OU BAS
@@ -211,6 +212,47 @@ def gestionDirection(jeu):
 
 
 
+
+
+
+
+
+
+
+def choixDeDirection(haut, bas, droite, gauche):
+	
+	distanceX = pacmanCaseX - caseX
+	distanceY = pacmanCaseY - caseY
+	
+	########################
+	## Si trois directions
+	#########################
+	
+	if droite and gauche and haut:
+		return 0
+		
+		
+	elif droite and gauche and bas:
+		return 0
+	elif haut and bas and droite:
+		return 0
+	elif haut and bas and gauche:
+		return 0
+	#######################
+	## Si deux directions
+	#######################
+	elif gauche and droite:
+		return 0
+	elif haut and bas:
+		return 0
+	elif doite and haut:
+		return 0
+	elif droite and bas:
+		return 0
+	elif gauche and haut:
+		return 0
+	elif gauche and bas:
+		return 0
 
 
 
