@@ -20,7 +20,7 @@ def play():
 		
 		
 	# Cette partie est rafraichie 60 fois par secondes
-	image = affichage.create_image(234+8, 390+8, anchor=NW, image=pcl1)
+	pac.affichepac(affichage)
 	fantomeRouge.gestion(affichage, blinky, jeu)
 	
 	
@@ -31,57 +31,7 @@ def play():
 	if(isPlay):
 		fen.after(17, play)
 
-###Deplacement###
-def img(cpt):
-	global image
-	if cpt == 0:
-		image = can.create_image(x, y, anchor=NW, image=pcl1)
-	elif cpt == 1:
-		image = can.create_image(x, y, anchor=NW, image=pcr1)
-	elif cpt == 2:
-		image = can.create_image(x, y, anchor=NW, image=pct1)
-	elif cpt == 3:
-		image = can.create_image(x, y, anchor=NW, image=pcd1)
 
-def go_left(event =None):
-	global x
-	x+=depl
-	if limite():
-		can.delete(image)
-		img(3)		
-	
-		
-	
-def go_right(event =None):
-	global x
-	x-=depl
-	if limite():
-		can.delete(image)
-		img(3)
-	
-		
-	
-
-def go_up(event =None):
-	global y
-	y-=depl
-	if limite():
-		can.delete(image)
-		img(3)	
-	
-		
-	
-
-def go_down(event =None):
-	global y
-	y+=depl
-	if limite():
-		
-		can.delete(image)
-		img(3)
-	
-def limite():
-	print ("dd")
 
 
 ### FONCTION STRUCTURE DE DONNéES
@@ -181,10 +131,6 @@ largeurAffichage = tailleTile * nbTilesLargeur		#Taille de la fenetre
 
 isPlay = True
 mapCreated = False #Flag pour créer la map de base 
-
-
-depl = 13
-x, y = 234, 390
 #Remplir matrice
 
 
@@ -237,12 +183,6 @@ background = PhotoImage(file ='ressources/mapv2.png')
 affichage = Canvas(fen, width=largeurAffichage, height= hauteurAffichage, bg="WHITE")
 affichage.pack(side="top")
 
-pcl1 = PhotoImage(file="ressources/pictures/pac-man/pacman-l 4.gif")
-pcr1 = PhotoImage(file="ressources/pictures/pac-man/pacman-r 1.gif")
-pcu1 = PhotoImage(file="ressources/pictures/pac-man/pacman-u 1.gif")
-pcd1 = PhotoImage(file="ressources/pictures/pac-man/pacman-d 1.gif")
-
-
 
 #Gestion menu
 playButton = Button(fen, text="Close", command=fen.quit)
@@ -258,7 +198,6 @@ playButton = Button(fen, text="Play", command=play)
 playButton.pack(side=RIGHT)
 
 #Bouton test ne sert a rien pour le jeu
-cpt = 0
 
 playButton = Button(fen, text="test", command=test)
 playButton.pack(side=RIGHT)
@@ -266,9 +205,9 @@ playButton.pack(side=RIGHT)
 # Deplacements
 image = None
 
-fen.bind("<Left>", go_left)          
-fen.bind("<Right>", go_right)       
-fen.bind("<Up>", go_up)            
-fen.bind("<Down>", go_down)
+fen.bind("<Left>", pac.go_left)          
+fen.bind("<Right>", pac.go_right)       
+fen.bind("<Up>", pac.go_up)            
+fen.bind("<Down>", pac.go_down)
 
 fen.mainloop()

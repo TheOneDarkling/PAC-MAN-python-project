@@ -15,3 +15,6 @@ nbTilesHauteur = 21
 nbTilesLargeur = 19
 rayonPacGomme = 9
 rayonSuperPacGomme = 5
+
+
+
