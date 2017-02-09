@@ -4,67 +4,62 @@ from math import *
 import constantes
 
 
-
+direction = 0
+depl = 5
 caseX = 9
 caseY = 15
 x = caseX*constantes.tailleTile
 y = caseY*constantes.tailleTile
 
 ###Deplacement###
-
-
-def affichepac(affichage):
+def gestionpac(affichage):
 	import ressources
-	pacman = affichage.create_image(x+(constantes.tailleTile/2), y+(constantes.tailleTile/2), image=ressources.pcl5)	
+	pacman = affichage.create_image(x+(constantes.tailleTile/2), y+(constantes.tailleTile/2), image=ressources.pcl5)
 	return pacman
 
-def img(cpt):
-	global image
-	if cpt == 0:
-		image = can.create_image(x, y, anchor=NW, image=pcl1)
-	elif cpt == 1:
-		image = can.create_image(x, y, anchor=NW, image=pcr1)
-	elif cpt == 2:
-		image = can.create_image(x, y, anchor=NW, image=pct1)
-	elif cpt == 3:
-		image = can.create_image(x, y, anchor=NW, image=pcd1)
+def move(affichage,pacman):
+	global direction, ressources , image
+	if direction == 0:
+		affichage.itemconfig(pacman,image=pcl1)
+	elif direction == 1:
+		affichage.itemconfig(pacman,image=pcr1)
+		
+	elif direction == 2:
+		affichage.itemconfig(pacman,image=pct1)
+		
+	elif direction == 3:
+		affichage.itemconfig(pacman,image=pcd1)
+	
+	affichage.move(pacman,1,1)
+	
+
+
+
+
+
+
+
 
 def go_left(event =None):
-	global x
-	x+=depl
-	if limite():
-		can.delete(image)
-		img(3)		
+	global direction
+	direction = constantes.GAUCHE
 	
-		
 	
 def go_right(event =None):
-	global x
-	x-=depl
-	if limite():
-		can.delete(image)
-		img(3)
-	
-		
-	
+	global direction
+	direction = constantes.DROITE
 
-def go_up(event =None):
-	global y
-	y-=depl
-	if limite():
-		can.delete(image)
-		img(3)	
 	
-		
+def go_up(event =None):
+	global direction
+	direction = constantes.HAUT
 	
 
 def go_down(event =None):
-	global y
-	y+=depl
-	if limite():
-		
-		can.delete(image)
-		img(3)
+	global direction
+	direction = constantes.BAS
 	
-def limite():
-	print ("dd")
+	
+		
+		
+	

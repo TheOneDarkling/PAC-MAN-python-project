@@ -3,11 +3,14 @@ from tkinter import *
 import fantomeRouge
 import constantes
 import pac
+import time
+
 
 ### FONCTIONS JEU
 
 def play():
-	global isPlay, mapCreated, blinky
+	#a = time.time()
+	global isPlay, mapCreated, blinky ,pacman
 	
 	# On affiche la map 1 fois
 	if not mapCreated:
@@ -20,8 +23,12 @@ def play():
 		
 		
 	# Cette partie est rafraichie 60 fois par secondes
-	pac.affichepac(affichage)
+		pacman = pac.gestionpac(affichage)
+	pac.move(affichage,pacman)	
 	fantomeRouge.gestion(affichage, blinky, jeu)
+	#b = time.time()
+	#c = b-a
+	#print (c)
 	
 	
 	#Gere la fin
@@ -172,6 +179,7 @@ jeu.append([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1])
 listePacGommes = [[0] * nbTilesLargeur for _ in range(nbTilesHauteur)]
 
 blinky = 0
+pacman = 0
 
 #Gestion fenetre
 fen = Tk()
