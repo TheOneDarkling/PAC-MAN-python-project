@@ -10,7 +10,7 @@ import time
 
 def play():
 	#a = time.time()
-	global isPlay, mapCreated, blinky ,pacman
+	global isPlay, mapCreated, blinky , pacman, ressources
 	
 	# On affiche la map 1 fois
 	if not mapCreated:

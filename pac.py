@@ -4,7 +4,8 @@ from math import *
 import constantes
 
 
-direction = 0
+
+direction = 3
 depl = 5
 caseX = 9
 caseY = 15
@@ -18,19 +19,27 @@ def gestionpac(affichage):
 	return pacman
 
 def move(affichage,pacman):
-	global direction, ressources , image
+	import ressources	
+	global direction, image
 	if direction == 0:
-		affichage.itemconfig(pacman,image=pcl1)
+		affichage.itemconfig(pacman,image=ressources.pcu1)
+		affichage.move(pacman,0,-1)
+		
 	elif direction == 1:
-		affichage.itemconfig(pacman,image=pcr1)
+		affichage.itemconfig(pacman,image=ressources.pcd1)
+		affichage.move(pacman,0,1)
+		
 		
 	elif direction == 2:
-		affichage.itemconfig(pacman,image=pct1)
+		affichage.itemconfig(pacman,image=ressources.pcr1)
+		affichage.move(pacman,1,0)
 		
 	elif direction == 3:
-		affichage.itemconfig(pacman,image=pcd1)
+		affichage.itemconfig(pacman,image=ressources.pcl1)
+		affichage.move(pacman,-1,0)
+
 	
-	affichage.move(pacman,1,1)
+	
 	
 
 
