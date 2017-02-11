@@ -24,7 +24,7 @@ def play():
 		
 	# Cette partie est rafraichie 60 fois par secondes
 		pacman = pac.gestionpac(affichage)
-	pac.move(affichage,pacman)	
+	pac.move(affichage,pacman,jeu)	
 	fantomeRouge.gestion(affichage, blinky, jeu)
 	#b = time.time()
 	#c = b-a
