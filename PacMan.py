@@ -25,7 +25,7 @@ def play():
 	# Cette partie est rafraichie 60 fois par secondes
 		pacman = pac.gestionpac(affichage)
 	pac.move(affichage,pacman,jeu)	
-	fantomeRouge.gestion(affichage, blinky, jeu)
+	fantomeRouge.gestion(affichage, blinky, jeu,)
 	#b = time.time()
 	#c = b-a
 	#print (c)
@@ -180,6 +180,7 @@ listePacGommes = [[0] * nbTilesLargeur for _ in range(nbTilesHauteur)]
 
 blinky = 0
 pacman = 0
+bouche = 3
 
 #Gestion fenetre
 fen = Tk()
