@@ -23,6 +23,10 @@ pacmanCaseX = 9 # pour les test
 pacmanCaseY = 15
 
 
+blocage = False # Evite que le fantome sois bloqué
+derniereDirection = constantes.STOP
+
+
 #### Fonctions
 
 def init(affichage):
@@ -55,6 +59,7 @@ def gestion(affichage, blinky, jeu):
 	################
 	# Choisis la direction
 	################
+	print(blocage)
 	
 	if choixDirection:
 		gestionDirection(jeu)
@@ -119,8 +124,8 @@ def gestionDirection(jeu):
 		elif jeu[caseY][caseX-1] == 1:
 			direction = constantes.DROITE
 		else:
-			direction = constantes.GAUCHE
-			###### CHOIX GAUCHE OU DROITE
+			direction = choixDeDirection([constantes.GAUCHE, constantes.DROITE, constantes.BAS])
+			###### CHOIX GAUCHE OU DROITE OU BAS
 		
 	elif direction == constantes.BAS and jeu[caseY+1][caseX] == 1: # SI MUR A BAS
 		if jeu[caseY][caseX+1] == 1:
@@ -128,8 +133,8 @@ def gestionDirection(jeu):
 		elif jeu[caseY][caseX-1] == 1:
 			direction = constantes.DROITE
 		else:
-			direction = constantes.GAUCHE
-			###### CHOIX GAUCHE OU DROITE
+			direction = choixDeDirection([constantes.GAUCHE, constantes.DROITE, constantes.HAUT])
+			###### CHOIX GAUCHE OU DROITE OU HAUT
 			
 		
 	elif direction == constantes.DROITE and jeu[caseY][caseX+1] == 1: # SI MUR A DROITE
@@ -138,8 +143,8 @@ def gestionDirection(jeu):
 		elif jeu[caseY+1][caseX] == 1:
 			direction = constantes.HAUT
 		else:
-			direction = constantes.HAUT
-			###### CHOIX HAUT OU BAS
+			direction = choixDeDirection([constantes.GAUCHE, constantes.BAS, constantes.HAUT])
+			###### CHOIX HAUT OU BAS OU GAUCHE
 		
 	elif direction == constantes.GAUCHE and jeu[caseY][caseX-1] == 1: # SI MUR A GAUCHE
 		if jeu[caseY-1][caseX] == 1:
@@ -147,8 +152,8 @@ def gestionDirection(jeu):
 		elif jeu[caseY+1][caseX] == 1:
 			direction = constantes.HAUT
 		else:
-			direction = constantes.HAUT
-			###### CHOIX HAUT OU BAS
+			direction = choixDeDirection([constantes.DROITE, constantes.BAS, constantes.HAUT])
+			###### CHOIX HAUT OU BAS OU DROITE
 	
 	
 	
@@ -160,55 +165,55 @@ def gestionDirection(jeu):
 
 	if direction == constantes.HAUT and jeu[caseY-1][caseX] == 0: # Croisement direction = HAUT
 		if jeu[caseY][caseX+1] == 0  and jeu[caseY][caseX-1] == 0:
-			direction = constantes.HAUT
-			###### CHOIX DROITE OU GAUCHE OU HAUT
+			direction = choixDeDirection([constantes.DROITE, constantes.BAS, constantes.HAUT, constantes.GAUCHE])
+			###### CHOIX DROITE OU GAUCHE OU HAUT OU BAS
 			
 		elif jeu[caseY][caseX+1] == 0:
-			direction = constantes.HAUT
-			###### CHOIX DROITE OU HAUT
+			direction = choixDeDirection([constantes.DROITE, constantes.BAS, constantes.HAUT])
+			###### CHOIX DROITE OU HAUT OU BAS
 
 		elif jeu[caseY][caseX-1] == 0:
-			direction = constantes.HAUT
-			###### CHOIX GAUCHE OU HAUT
+			direction = choixDeDirection([constantes.BAS, constantes.HAUT, constantes.GAUCHE])
+			###### CHOIX GAUCHE OU HAUT OU BAS
 			
 	elif direction == constantes.BAS and jeu[caseY+1][caseX] == 0:  # Croisement direction = BAS
 		if jeu[caseY][caseX+1] == 0  and jeu[caseY][caseX-1] == 0:
-			direction = constantes.BAS
-			###### CHOIX DROITE OU GAUCHE OU BAS
+			direction = choixDeDirection([constantes.DROITE, constantes.BAS, constantes.HAUT, constantes.GAUCHE])
+			###### CHOIX DROITE OU GAUCHE OU BAS OU HAUT
 			
 		elif jeu[caseY][caseX+1] == 0:
-			direction = constantes.BAS
-			###### CHOIX DROITE OU BAS
+			direction = choixDeDirection([constantes.DROITE, constantes.BAS, constantes.HAUT])
+			###### CHOIX DROITE OU BAS OU HAUT
 
 		elif jeu[caseY][caseX-1] == 0:
-			direction = constantes.BAS
-			###### CHOIX GAUCHE OU BAS
+			direction = choixDeDirection([constantes.BAS, constantes.HAUT, constantes.GAUCHE])
+			###### CHOIX GAUCHE OU BAS OU HAUT
 
 	elif direction == constantes.DROITE and jeu[caseY][caseX+1] == 0:  # Croisement direction = DROITE
 		if jeu[caseY+1][caseX] == 0  and jeu[caseY-1][caseX] == 0:
-			direction = constantes.DROITE
+			direction = choixDeDirection([constantes.DROITE, constantes.BAS, constantes.HAUT, constantes.GAUCHE])
 			###### CHOIX HAUT OU BAS OU DROITE
 			
 		elif jeu[caseY+1][caseX] == 0:
-			direction = constantes.DROITE
-			###### CHOIX BAS OU DROITE
+			direction = choixDeDirection([constantes.DROITE, constantes.BAS, constantes.GAUCHE])
+			###### CHOIX BAS OU DROITE OU GAUCHE
 
 		elif jeu[caseY-1][caseX] == 0:
-			direction = constantes.DROITE
-			###### CHOIX HAUT OU DROITE
+			direction = choixDeDirection([constantes.DROITE, constantes.HAUT, constantes.GAUCHE])
+			###### CHOIX HAUT OU DROITE OU GAUCHE
 			
 	elif direction == constantes.GAUCHE and jeu[caseY][caseX-1] == 0:  # Croisement direction = GAUCHE
 		if jeu[caseY+1][caseX] == 0  and jeu[caseY-1][caseX] == 0:
-			direction = constantes.GAUCHE
-			###### CHOIX HAUT OU BAS OU GAUCHE
+			direction = choixDeDirection([constantes.DROITE, constantes.BAS, constantes.HAUT, constantes.GAUCHE])
+			###### CHOIX HAUT OU BAS OU GAUCHE OU DROITE
 			
 		elif jeu[caseY+1][caseX] == 0:
-			direction = constantes.GAUCHE
-			###### CHOIX BAS OU GAUCHE
+			direction = choixDeDirection([constantes.DROITE, constantes.BAS, constantes.GAUCHE])
+			###### CHOIX BAS OU GAUCHE OU DROITE
 
 		elif jeu[caseY-1][caseX] == 0:
-			direction = constantes.GAUCHE
-			###### CHOIX HAUT OU GAUCHE
+			direction = choixDeDirection([constantes.DROITE, constantes.HAUT, constantes.GAUCHE])
+			###### CHOIX HAUT OU GAUCHE OU DROITE
 
 
 
@@ -219,40 +224,38 @@ def gestionDirection(jeu):
 
 
 
-def choixDeDirection(haut, bas, droite, gauche):
+
+def choixDeDirection(dirPossible):
+	global blocage, derniereDirection
 	
 	distanceX = pacmanCaseX - caseX
 	distanceY = pacmanCaseY - caseY
 	
-	########################
-	## Si trois directions
-	#########################
+	directionOptimale = []
 	
-	if droite and gauche and haut:
-		return 0
-		
-		
-	elif droite and gauche and bas:
-		return 0
-	elif haut and bas and droite:
-		return 0
-	elif haut and bas and gauche:
-		return 0
-	#######################
-	## Si deux directions
-	#######################
-	elif gauche and droite:
-		return 0
-	elif haut and bas:
-		return 0
-	elif doite and haut:
-		return 0
-	elif droite and bas:
-		return 0
-	elif gauche and haut:
-		return 0
-	elif gauche and bas:
-		return 0
+	if distanceX >= distanceY:
+		directionOptimale.append(constantes.DROITE)
+		if distanceY > 0:
+			directionOptimale.append(constantes.BAS)
+		else:
+			directionOptimale.append(constantes.HAUT)
+	elif distanceX <= distanceY:
+		directionOptimale.append(constantes.BAS)
+		if distanceX > 0:
+			directionOptimale.append(constantes.DROITE)
+		else:
+			directionOptimale.append(constantes.GAUCHE)
+			
+	if directionOptimale[0] in dirPossible:
+		blocage = False
+		return directionOptimale[0]
+	elif not blocage:
+		blocage = True
+		derniereDirection = directionOptimale[1]
+		return directionOptimale[1]
+	else:
+		return derniereDirection
+
 
 
 
