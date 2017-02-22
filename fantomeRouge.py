@@ -19,7 +19,7 @@ typeDeCaseAvant = 0 # Permet de remettre la bonne case dans la matrice
 choixDirection = True
 
 
-pacmanCaseX = 9 # pour les test
+pacmanCaseX = 5 # pour les test
 pacmanCaseY = 15
 
 
@@ -59,12 +59,10 @@ def gestion(affichage, blinky, jeu):
 	################
 	# Choisis la direction
 	################
-	print(blocage)
 	
 	if choixDirection:
 		gestionDirection(jeu)
 		choixDirection = False
-	
 	
 	################
 	# Avance
@@ -231,6 +229,48 @@ def choixDeDirection(dirPossible):
 	distanceX = pacmanCaseX - caseX
 	distanceY = pacmanCaseY - caseY
 	
+	nbCaseDistX = abs(distanceX)
+	nbCaseDistY = abs(distanceY)
+	
+	if nbCaseDistX > nbCaseDistY:
+		if distanceX > 0:
+			if constantes.DROITE in dirPossible: #test si DROITE est possible
+				return constantes.DROITE
+			else:  #Sinon on regarde les Y
+				if distanceY > 0:
+					return constantes.BAS
+				else:
+					return constantes.HAUT
+		else:
+			if constantes.GAUCHE in dirPossible: #test si GAUCHE est possible
+				return constantes.GAUCHE
+			else:  #Sinon on regarde les Y
+				if distanceY > 0:
+					return constantes.BAS
+				else:
+					return constantes.HAUT
+			
+			
+	elif nbCaseDistX < nbCaseDistY:
+		if distanceY > 0:
+			if constantes.BAS in dirPossible: #test si BAS est possible
+				return constantes.BAS
+			else:  #Sinon on regarde les X
+				if distanceX > 0:
+					return constantes.DROITE
+				else:
+					return constantes.GAUCHE
+		else:
+			if constantes.HAUT in dirPossible: #test si HAUT est possible
+				return constantes.HAUT
+			else:  #Sinon on regarde les X
+				if distanceX > 0:
+					return constantes.DROITE
+				else:
+					return constantes.GAUCHE
+	
+	"""
+	
 	directionOptimale = []
 	
 	if distanceX >= distanceY:
@@ -256,6 +296,7 @@ def choixDeDirection(dirPossible):
 	else:
 		return derniereDirection
 
+	"""
 
 
 
