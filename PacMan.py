@@ -21,11 +21,13 @@ def play():
 		
 		mapCreated = True
 		
-		
-	# Cette partie est rafraichie 60 fois par secondes
 		pacman = pac.gestionpac(affichage)
+
+	# Cette partie est rafraichie 60 fois par secondes
+		
 	pac.move(affichage,pacman,jeu)	
 	fantomeRouge.gestion(affichage, blinky, jeu,)
+	
 	#b = time.time()
 	#c = b-a
 	#print (c)

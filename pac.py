@@ -111,8 +111,7 @@ def move(affichage,pacman,jeu):
 	elif direction == 3:
 		affichage.itemconfig(pacman,image=ressources.pcl1)
 		affichage.move(pacman,-1,0)
-	else:
-		print ("rien")
+	
 
 
 	if caseX != caseXAvant or caseY != caseYAvant:
