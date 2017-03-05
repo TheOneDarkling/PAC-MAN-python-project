@@ -6,44 +6,44 @@ pctest = PhotoImage(file="ressources/pictures/pac-man/pacman.gif")
 
 
 ########PAC-MAN LEFT#######
-pcl1 = PhotoImage(file="ressources/pictures/pac-man/pacman-l 1.gif")
-pcl2 = PhotoImage(file="ressources/pictures/pac-man/pacman-l 2.gif")
-pcl3 = PhotoImage(file="ressources/pictures/pac-man/pacman-l 3.gif")
-pcl4 = PhotoImage(file="ressources/pictures/pac-man/pacman-l 4.gif")
-pcl5 = PhotoImage(file="ressources/pictures/pac-man/pacman-l 5.gif")
-pcl6 = PhotoImage(file="ressources/pictures/pac-man/pacman-l 6.gif")
-pcl7 = PhotoImage(file="ressources/pictures/pac-man/pacman-l 7.gif")
-pcl8 = PhotoImage(file="ressources/pictures/pac-man/pacman-l 8.gif")
+pacmanL = [PhotoImage(file="ressources/pictures/pac-man/pacmanL1.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanL2.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanL3.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanL4.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanL5.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanL6.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanL7.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanL8.gif")]
 
 ########PAC-MAN right#######
-pcr1 = PhotoImage(file="ressources/pictures/pac-man/pacman-r 1.gif")
-pcr2 = PhotoImage(file="ressources/pictures/pac-man/pacman-r 2.gif")
-pcr3 = PhotoImage(file="ressources/pictures/pac-man/pacman-r 3.gif")
-pcr4 = PhotoImage(file="ressources/pictures/pac-man/pacman-r 4.gif")
-pcr5 = PhotoImage(file="ressources/pictures/pac-man/pacman-r 5.gif")
-pcr6 = PhotoImage(file="ressources/pictures/pac-man/pacman-r 6.gif")
-pcr7 = PhotoImage(file="ressources/pictures/pac-man/pacman-r 7.gif")
-pcr8 = PhotoImage(file="ressources/pictures/pac-man/pacman-r 8.gif")
+pacmanR = [PhotoImage(file="ressources/pictures/pac-man/pacmanR1.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanR2.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanR3.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanR4.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanR5.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanR6.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanR7.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanR8.gif")]
 
 ########PAC-MAN up#######
-pcu1 = PhotoImage(file="ressources/pictures/pac-man/pacman-u 1.gif")
-pcu2 = PhotoImage(file="ressources/pictures/pac-man/pacman-u 2.gif")
-pcu3 = PhotoImage(file="ressources/pictures/pac-man/pacman-u 3.gif")
-pcu4 = PhotoImage(file="ressources/pictures/pac-man/pacman-u 4.gif")
-pcu5 = PhotoImage(file="ressources/pictures/pac-man/pacman-u 5.gif")
-pcu6 = PhotoImage(file="ressources/pictures/pac-man/pacman-u 6.gif")
-pcu7 = PhotoImage(file="ressources/pictures/pac-man/pacman-u 7.gif")
-pcu8 = PhotoImage(file="ressources/pictures/pac-man/pacman-u 8.gif")
+pacmanU = [PhotoImage(file="ressources/pictures/pac-man/pacmanU1.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanU2.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanU3.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanU4.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanU5.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanU6.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanU7.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanU8.gif")]
 
 ########PAC-MAN down#######
-pcd1 = PhotoImage(file="ressources/pictures/pac-man/pacman-d 1.gif")
-pcd2 = PhotoImage(file="ressources/pictures/pac-man/pacman-d 2.gif")
-pcd3 = PhotoImage(file="ressources/pictures/pac-man/pacman-d 3.gif")
-pcd4 = PhotoImage(file="ressources/pictures/pac-man/pacman-d 4.gif")
-pcd5 = PhotoImage(file="ressources/pictures/pac-man/pacman-d 5.gif")
-pcd6 = PhotoImage(file="ressources/pictures/pac-man/pacman-d 6.gif")
-pcd7 = PhotoImage(file="ressources/pictures/pac-man/pacman-d 7.gif")
-pcd8 = PhotoImage(file="ressources/pictures/pac-man/pacman-d 8.gif")
+pacmanD = [PhotoImage(file="ressources/pictures/pac-man/pacmanD1.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanD2.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanD3.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanD4.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanD5.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanD6.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanD7.gif"),
+           PhotoImage(file="ressources/pictures/pac-man/pacmanD8.gif")]
 
 
 #############GHOST###############

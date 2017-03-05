@@ -5,7 +5,7 @@ import constantes
 
 
 
-direction = 3
+direction = constantes.STOP
 caseX = 9
 caseY = 15
 x = caseX*constantes.tailleTile
@@ -16,24 +16,35 @@ caseYAvant = caseY
 typeDeCaseAvant = 0 # Permet de remettre la bonne case dans la matrice
 choixDirection = True
 
+CASE_DEPL = [0, 3, 4]
+
+nbPacGommeEat = 0
+
+timer = 0
+cpt = 0
+img = 0
 
 
 
 ###Deplacement###
-def gestionpac(affichage):
+def init(affichage):
 	import ressources
-	pacman = affichage.create_image(x+(constantes.tailleTile/2), y+(constantes.tailleTile/2), image=ressources.pcl5)
+	pacman = affichage.create_image(x+(constantes.tailleTile/2), y+(constantes.tailleTile/2), image=ressources.pctest)
 	return pacman
 
-def move(affichage,pacman,jeu):
-	import ressources	
-	global direction, image, choixDirection
-	global x, y, caseXAvant, caseYAvant, caseX, caseY, choixDirection
-	bouche = 3
 
+
+
+def gestion(affichage,pacman,jeu, listePacGommes, fen):
+	global x, y, caseXAvant, caseYAvant, caseX, caseY, choixDirection, direction, timer
+	
 	caseXAvant = caseX #servent a voir si la matrice doit changer
 	caseYAvant = caseY
-
+	
+	################
+	# Actualise les coord avant  le deplacement
+	################
+	
 	x, y = affichage.coords(pacman)
 	
 	if (x <= (caseX*constantes.tailleTile-constantes.tailleTile/2) or x >= (caseX+1)*constantes.tailleTile+((constantes.tailleTile/2)+5)):
@@ -41,95 +52,55 @@ def move(affichage,pacman,jeu):
 		
 	if (y <= (caseY*constantes.tailleTile-constantes.tailleTile/2) or y >= (caseY+1)*constantes.tailleTile+((constantes.tailleTile/2)+5)):
 		caseY = floor(y/constantes.tailleTile)
-
-	if choixDirection:
-		gestionDirection(jeu)
-		choixDirection = False
-
-	if direction == 0:		
-		if bouche ==0 :
-			affichage.itemconfig(pacman,image=ressources.pcu1)
-				
-		elif bouche ==1 :
-			affichage.itemconfig(pacman,image=ressources.pcu2)
-				
-		elif bouche == 2:
-			affichage.itemconfig(pacman,image=ressources.pcu3)
-			
-		elif bouche == 3:
-			affichage.itemconfig(pacman,image=ressources.pcu4)
-			
-		elif bouche == 4:
-			affichage.itemconfig(pacman,image=ressources.pcu5)
-				
-		elif bouche == 5:
-			affichage.itemconfig(pacman,image=ressources.pcu6)
-				
-		elif bouche == 6:
-			affichage.itemconfig(pacman,image=ressources.pcu7)
-			
-		elif bouche == 7:
-			affichage.itemconfig(pacman,image=ressources.pcu7)
-			bouche = 0	
-		bouche = bouche + 1	
-		affichage.move(pacman,0,-1)
-		
-	elif direction == 1:
-		if bouche ==0 :
-			affichage.itemconfig(pacman,image=ressources.pcd1)
-			bouche = bouche + 1	
-		elif bouche ==1 :
-			affichage.itemconfig(pacman,image=ressources.pcd2)
-			bouche = bouche + 1	
-		elif bouche == 2:
-			affichage.itemconfig(pacman,image=ressources.pcd3)
-			bouche = bouche + 1	
-		elif bouche == 3:
-			affichage.itemconfig(pacman,image=ressources.pcd4)
-			bouche = bouche + 1	
-		elif bouche == 4:
-			affichage.itemconfig(pacman,image=ressources.pcd5)
-			bouche = bouche + 1	
-		elif bouche == 5:
-			affichage.itemconfig(pacman,image=ressources.pcd6)
-			bouche = bouche + 1	
-		elif bouche == 6:
-			affichage.itemconfig(pacman,image=ressources.pcd7)
-			bouche = bouche + 1	
-		elif bouche == 7:
-			affichage.itemconfig(pacman,image=ressources.pcd7)
-			bouche = 0
-
-		bouche = bouche + 1
-		affichage.move(pacman,0,1)
-		
-		
-	elif direction == 2:
-		affichage.itemconfig(pacman,image=ressources.pcr1)
-		affichage.move(pacman,1,0)
-		
-	elif direction == 3:
-		affichage.itemconfig(pacman,image=ressources.pcl1)
-		affichage.move(pacman,-1,0)
 	
-
+	#GERER direction
+	
+	direction = gestionDirection(jeu)
+		
+	animation(affichage, pacman)
+	
+	################
+	# Avance
+	################
+	
+	
+	if direction == constantes.HAUT:
+		affichage.move(pacman, 0, -1)
+	elif direction == constantes.BAS:
+		affichage.move(pacman, 0, 1)
+	elif direction == constantes.DROITE:
+		affichage.move(pacman, 1, 0)
+	elif direction == constantes.GAUCHE:
+		affichage.move(pacman, -1, 0)
+	else:
+		affichage.move(pacman, 0, 0)
+		
+		
+		
+	################
+	#Gestion matrice
+	################
 
 	if caseX != caseXAvant or caseY != caseYAvant:
-		changerMatrice(jeu)
-		choixDirection = True
+		changerMatrice(jeu, affichage, listePacGommes, fen)
 
 	
 	
 
 
 
-def changerMatrice(jeu):
-	global caseXAvant, caseYAvant, caseY, caseX, typeDeCaseAvant
+def changerMatrice(jeu, affichage, listePacGommes, fen):
+	global caseXAvant, caseYAvant, caseY, caseX, typeDeCaseAvant, nbPacGommeEat
 	
 	jeu[caseYAvant][caseXAvant] = typeDeCaseAvant
 	typeDeCaseAvant = jeu[caseY][caseX]
-	jeu[caseY][caseX] = 0
-
+	
+	if typeDeCaseAvant == 3: #il y a une pacgomme
+		nbPacGommeEat += 1
+		affichage.delete(fen, listePacGommes[caseY][caseX])
+		
+	jeu[caseY][caseX] = 2
+	print(nbPacGommeEat)
 
 
 
@@ -153,26 +124,76 @@ def go_down(event =None):
 	global direction
 	direction = constantes.BAS
 	
-
-		
+	
 def gestionDirection(jeu):
 	global direction
 	
-	########################
-	#Test si il y  a un mur
-	########################
+	dirPossible = []
+	dirPossible.clear()
+	
+	if jeu[caseY][caseX+1] in CASE_DEPL:
+		dirPossible.append(constantes.DROITE)
+	if jeu[caseY][caseX-1] in CASE_DEPL:
+		dirPossible.append(constantes.GAUCHE)
+	if jeu[caseY-1][caseX] in CASE_DEPL:
+		dirPossible.append(constantes.HAUT)
+	if jeu[caseY+1][caseX] in CASE_DEPL:
+		dirPossible.append(constantes.BAS)
+	
+	if direction in dirPossible:
+		return direction
+	else:
+		return constantes.STOP
+
+
+
+def positionX():
+	return caseX
+	
+def positionY():
+	return caseY
 	
 	
-	if direction == constantes.HAUT and jeu[caseY-1][caseX] == 1: # SI MUR A HAUT
-		direction = 4
+	
+def animation(affichage, pacman):
+	global timer, cpt, img
+	import ressources
+	
+	
+	#timer
+	if cpt >= 8:
+		timer = 0
+		cpt = 0 
 		
-	elif direction == constantes.BAS and jeu[caseY+1][caseX] == 1: # SI MUR A BAS
-		direction = 4
-			
+	if timer >= 7:
+		cpt += 1
+		img = timer - cpt
+	else:
+		timer += 1
+		cpt = 2
+		img = timer
+	#
+	
+	if direction == constantes.STOP:
+		affichage.itemconfig(pacman, image=ressources.pctest)
+	elif direction == constantes.BAS:
+		affichage.itemconfig(pacman, image=ressources.pacmanD[img])
+	elif direction == constantes.HAUT:
+		affichage.itemconfig(pacman, image=ressources.pacmanU[img])
+	elif direction == constantes.DROITE:
+		affichage.itemconfig(pacman, image=ressources.pacmanR[img])
+	elif direction == constantes.GAUCHE:
+		affichage.itemconfig(pacman, image=ressources.pacmanL[img])
 		
-	elif direction == constantes.DROITE and jeu[caseY][caseX+1] == 1: # SI MUR A DROITE
-		direction = 4
 		
-	elif direction == constantes.GAUCHE and jeu[caseY][caseX-1] == 1: # SI MUR A GAUCHE
-		direction = 4
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	

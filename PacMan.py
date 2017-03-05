@@ -9,33 +9,33 @@ import time
 ### FONCTIONS JEU
 
 def play():
-	#a = time.time()
-	global isPlay, mapCreated, blinky , pacman, ressources
+	global isPlay, mapCreated, blinky , pacman, ressources, listePacGommes, fen
 	
 	# On affiche la map 1 fois
 	if not mapCreated:
 		affichage.create_image(234+15, 273, image=background)
-		afficherPacGommes()
+		afficherPacGommes(affichage)
 		
 		blinky = fantomeRouge.init(affichage)
 		
 		mapCreated = True
 		
-		pacman = pac.gestionpac(affichage)
+		pacman = pac.init(affichage)
 
 	# Cette partie est rafraichie 60 fois par secondes
-		
-	pac.move(affichage,pacman,jeu)	
-	fantomeRouge.gestion(affichage, blinky, jeu,)
 	
-	#b = time.time()
-	#c = b-a
-	#print (c)
+	
+	
+	isPlay = fantomeRouge.gestion(affichage, blinky, jeu,isPlay)
+	
+	pac.gestion(affichage,pacman,jeu, listePacGommes, fen)
+	
 	
 	
 	#Gere la fin
 	
-
+	if constantes.partiePerdu:
+		gameOver()
 	
 	if(isPlay):
 		fen.after(17, play)
@@ -61,33 +61,25 @@ def etatJeu():
 # Creation d'une matrice et affichage
 	fen2 = Tk()
 	liste = []
+	
+	couleur = ["white","green","yellow","grey","brown","red"]
+	
 	for j in range(nbTilesHauteur):
 		for i in range(nbTilesLargeur):
 			liste.append(jeu[j][i])
-			if (jeu[j][i] == 0) :
-				affichage.create_text(i*(tailleTile)+13, j*(tailleTile)+13,text ="0", fill ="white")
-			elif (jeu[j][i] == 1) :
-				affichage.create_text(i*(tailleTile)+13, j*(tailleTile)+13,text ="1", fill ="green")
-			elif (jeu[j][i] == 2) :
-				affichage.create_text(i*(tailleTile)+13, j*(tailleTile)+13,text ="2", fill ="yellow")
-			elif (jeu[j][i] == 3) :
-				affichage.create_text(i*(tailleTile)+13, j*(tailleTile)+13,text ="3", fill ="grey") 
-			elif (jeu[j][i] == 4) :
-				affichage.create_text(i*(tailleTile)+13, j*(tailleTile)+13,text ="4", fill ="brown") 
-			elif (jeu[j][i] == 5) :
-				affichage.create_text(i*(tailleTile)+13, j*(tailleTile)+13,text ="5", fill ="red")
+			affichage.create_text(i*(tailleTile)+13, j*(tailleTile)+13,text =jeu[j][i], fill =couleur[jeu[j][i]])
 			
 		chaine = Label(fen2)
 		chaine.configure(text=str(liste))
 		
-		
 		chaine.pack()
 		liste.clear()
-	#matrice.write(str(jeu))
+
+	
 	
 ##FONCTIONS PAC GOMMES
 
-def afficherPacGommes():
+def afficherPacGommes(affichage):
 	global listePacGommes
 	
 	
@@ -97,6 +89,10 @@ def afficherPacGommes():
 				listePacGommes[j][i] = affichage.create_oval(i*tailleTile+rayonPacGomme, j*tailleTile+rayonPacGomme, i*tailleTile+tailleTile-rayonPacGomme, j*tailleTile+tailleTile-rayonPacGomme, fill="grey")
 			elif jeu[j][i] == 4:
 				listePacGommes[j][i] = affichage.create_oval(i*tailleTile+rayonSuperPacGomme, j*tailleTile+rayonSuperPacGomme, i*tailleTile+tailleTile-rayonSuperPacGomme, j*tailleTile+tailleTile-rayonSuperPacGomme, fill="grey")
+	
+	
+	#affichage.delete(fen, listePacGommes[1][1]) ## POUR SUPR
+	print(listePacGommes)
 
 		
 
@@ -121,6 +117,12 @@ def test():
 		
 
 
+def gameOver():
+	global fen
+	print("GAME OVER XD")
+	fen.destroy()
+	
+
 
 
 
@@ -143,28 +145,27 @@ mapCreated = False #Flag pour créer la map de base
 #Remplir matrice
 
 
-jeu = []
-jeu.append([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1])
-jeu.append([1,3,3,3,3,3,3,3,3,1,3,3,3,3,3,3,3,3,1])
-jeu.append([1,4,1,1,3,1,1,1,3,1,3,1,1,1,3,1,1,4,1])
-jeu.append([1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1])
-jeu.append([1,3,1,1,3,1,3,1,1,1,1,1,3,1,3,1,1,3,1])
-jeu.append([1,3,3,3,3,1,3,3,3,1,3,3,3,1,3,3,3,3,1])
-jeu.append([1,1,1,1,3,1,1,1,0,1,0,1,1,1,3,1,1,1,1])
-jeu.append([0,0,0,1,3,1,0,0,0,5,0,0,0,1,3,1,0,0,0])
-jeu.append([1,1,1,1,3,1,0,1,1,1,1,1,0,1,3,1,1,1,1])
-jeu.append([0,0,0,0,3,0,0,1,0,0,0,1,0,0,3,0,0,0,0])
-jeu.append([1,1,1,1,3,1,0,1,1,1,1,1,0,1,3,1,1,1,1])
-jeu.append([0,0,0,1,3,1,0,0,0,0,0,0,0,1,3,1,0,0,0])
-jeu.append([1,1,1,1,3,1,0,1,1,1,1,1,0,1,3,1,1,1,1])
-jeu.append([1,3,3,3,3,3,3,3,3,1,3,3,3,3,3,3,3,3,1])
-jeu.append([1,3,1,1,3,1,1,1,3,1,3,1,1,1,3,1,1,3,1])
-jeu.append([1,4,3,1,3,3,3,3,3,2,3,3,3,3,3,1,3,4,1])
-jeu.append([1,1,3,1,3,1,3,1,1,1,1,1,3,1,3,1,3,1,1])
-jeu.append([1,3,3,3,3,1,3,3,3,1,3,3,3,1,3,3,3,3,1])
-jeu.append([1,3,1,1,1,1,1,1,3,1,3,1,1,1,1,1,1,3,1])
-jeu.append([1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1])
-jeu.append([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1])
+jeu = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+       [1,3,3,3,3,3,3,3,3,1,3,3,3,3,3,3,3,3,1],
+       [1,4,1,1,3,1,1,1,3,1,3,1,1,1,3,1,1,4,1],
+       [1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1],
+       [1,3,1,1,3,1,3,1,1,1,1,1,3,1,3,1,1,3,1],
+       [1,3,3,3,3,1,3,3,3,1,3,3,3,1,3,3,3,3,1],
+       [1,1,1,1,3,1,1,1,0,1,0,1,1,1,3,1,1,1,1],
+       [0,0,0,1,3,1,0,0,0,5,0,0,0,1,3,1,0,0,0],
+       [1,1,1,1,3,1,0,1,1,1,1,1,0,1,3,1,1,1,1],
+       [0,0,0,0,3,0,0,1,0,0,0,1,0,0,3,0,0,0,0],
+       [1,1,1,1,3,1,0,1,1,1,1,1,0,1,3,1,1,1,1],
+       [0,0,0,1,3,1,0,0,0,0,0,0,0,1,3,1,0,0,0],
+       [1,1,1,1,3,1,0,1,1,1,1,1,0,1,3,1,1,1,1],
+       [1,3,3,3,3,3,3,3,3,1,3,3,3,3,3,3,3,3,1],
+       [1,3,1,1,3,1,1,1,3,1,3,1,1,1,3,1,1,3,1],
+       [1,4,3,1,3,3,3,3,3,2,3,3,3,3,3,1,3,4,1],
+       [1,1,3,1,3,1,3,1,1,1,1,1,3,1,3,1,3,1,1],
+       [1,3,3,3,3,1,3,3,3,1,3,3,3,1,3,3,3,3,1],
+       [1,3,1,1,1,1,1,1,3,1,3,1,1,1,1,1,1,3,1],
+       [1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1],
+       [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]
 
 
 ############DESCRIPTION###########

@@ -2,6 +2,7 @@
 from tkinter import *
 from math import *
 import constantes
+import pac
 
 #### ATTRIBUTS
 
@@ -22,7 +23,7 @@ choixDirection = True
 pacmanCaseX = 9 # pour les test
 pacmanCaseY = 15
 
-CASE_DEPL = [0, 3, 4]
+CASE_DEPL = [0, 3, 4, 2]
 
 blocageBas = False # Evite que le fantome sois bloqué
 blocageHaut = False
@@ -39,7 +40,7 @@ def init(affichage):
 	
 	
 
-def gestion(affichage, blinky, jeu):
+def gestion(affichage, blinky, jeu, isPlay):
 	global x, y, caseXAvant, caseYAvant, caseX, caseY, choixDirection
 	
 	caseXAvant = caseX #servent a voir si la matrice doit changer
@@ -88,21 +89,34 @@ def gestion(affichage, blinky, jeu):
 	################
 
 	if caseX != caseXAvant or caseY != caseYAvant:
-		changerMatrice(jeu)
+		choixDirection = True
+		return changerMatrice(jeu, isPlay)
+		
+	
+	if direction == constantes.STOP:
 		choixDirection = True
 		
+	return True
+		
 	
 	
 	
 	
 	
 		
-def changerMatrice(jeu):
+def changerMatrice(jeu, isPlay):
 	global caseXAvant, caseYAvant, caseY, caseX, typeDeCaseAvant
 	
 	jeu[caseYAvant][caseXAvant] = typeDeCaseAvant
 	typeDeCaseAvant = jeu[caseY][caseX]
+	
+	if typeDeCaseAvant == 2: # Si le fantome touche pacman
+		constantes.partiePerdu = True
+		
 	jeu[caseY][caseX] = 5
+	
+	
+	return isPlay
 	
 	
 	
@@ -123,15 +137,67 @@ def gestionDirection(jeu):
 		dirPossible.append(constantes.HAUT)
 	if jeu[caseY+1][caseX] in CASE_DEPL:
 		dirPossible.append(constantes.BAS)
-
+	
 	direction = choixDeDirection(dirPossible)
+	dirPossible.clear()
 
 
 
 
 
 def choixDeDirection(dirPossible):
-	return constantes.STOP
+	global derniereDirection
+
+	distanceX = pac.positionX() - caseX
+	distanceY = pac.positionY() - caseY
+	
+	direction = constantes.STOP
+	
+	if abs(distanceX) > abs(distanceY): # Si plus grande distance en X
+		if distanceX > 0 and (constantes.DROITE in dirPossible):
+			direction = constantes.DROITE
+		elif distanceX > 0: # sinon HAUT ou BAS
+			if distanceY > 0 and (constantes.BAS in dirPossible):
+				direction = constantes.BAS
+			else:
+				direction = constantes.HAUT
+		elif distanceX < 0 and (constantes.GAUCHE in dirPossible):
+			direction = constantes.GAUCHE
+		elif distanceX < 0:
+			if distanceY > 0 and (constantes.BAS in dirPossible):
+				direction = constantes.BAS
+			else:
+				direction = constantes.HAUT
+	elif abs(distanceX) < abs(distanceY): # Si plus grande distance en Y
+		if distanceY >= 0 and (constantes.BAS in dirPossible):
+			direction = constantes.BAS
+		elif distanceY > 0 and (constantes.DROITE in dirPossible):
+			if distanceX > 0:
+				direction = constantes.DROITE
+			else:
+				direction = constantes.GAUCHE
+		elif distanceY < 0 and (constantes.HAUT in dirPossible):
+			direction = constantes.HAUT
+		elif distanceY < 0:
+			if distanceX > 0 and (constantes.DROITE in dirPossible):
+				direction = constantes.DROITE
+			else:
+				direction = constantes.GAUCHE
+	else: # Si meme distance
+		if distanceY > 0 and (constantes.BAS in dirPossible):
+			direction = constantes.BAS
+		elif distanceX > 0 and (constantes.DROITE in dirPossible):
+			direction = constantes.DROITE
+		elif distanceY < 0 and (constantes.HAUT in dirPossible):
+			direction = constantes.BAS
+		elif distanceX < 0 and (constantes.GAUCHE in dirPossible):
+			direction = constantes.GAUCHE
+		else:
+			direction = constantes.STOP
+		
+	derniereDirection = direction
+			
+	return direction
 
 
 

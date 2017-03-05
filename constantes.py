@@ -16,5 +16,10 @@ nbTilesLargeur = 19
 rayonPacGomme = 9
 rayonSuperPacGomme = 5
 
+### Globales
+
+partiePerdu = False
+
+
 
 
