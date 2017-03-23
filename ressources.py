@@ -74,9 +74,22 @@ sc9 = PhotoImage(file="ressources/pictures/text/9.gif")
 
 life = PhotoImage(file="ressources/pictures/text/life.gif")
 
-logo = PhotoImage(file="ressources/pictures/text/logo.gif")
+logo = PhotoImage(file="ressources/pictures/text/logo.png")
 
 gameover = PhotoImage(file="ressources/pictures/text/gameover.gif")
 
+#######################MENU##########################
+backgroundMenu = PhotoImage(file="ressources/pictures/background.png")
+boutonVide = PhotoImage(file="ressources/pictures/buttons/boutonVide.png")
+
+boutonA = [PhotoImage(file="ressources/pictures/buttons/boutonPlay.png"),
+           PhotoImage(file="ressources/pictures/buttons/boutonHardmode.png"),
+           PhotoImage(file="ressources/pictures/buttons/boutonOptions.png"),
+           PhotoImage(file="ressources/pictures/buttons/boutonQuitter.png")]
+
+boutonD = [PhotoImage(file="ressources/pictures/buttons/boutonPlayD.png"),
+           PhotoImage(file="ressources/pictures/buttons/boutonHardmodeD.png"),
+           PhotoImage(file="ressources/pictures/buttons/boutonOptionsD.png"),
+           PhotoImage(file="ressources/pictures/buttons/boutonQuitterD.png")]
 
 

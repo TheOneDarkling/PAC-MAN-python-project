@@ -2,8 +2,9 @@
 from tkinter import *
 from math import *
 import constantes
+import menu
 
-
+choixUtilisateur = constantes.STOP
 
 direction = constantes.STOP
 caseX = 9
@@ -95,9 +96,14 @@ def changerMatrice(jeu, affichage, listePacGommes, fen):
 	jeu[caseYAvant][caseXAvant] = typeDeCaseAvant
 	typeDeCaseAvant = jeu[caseY][caseX]
 	
-	if typeDeCaseAvant == 3: #il y a une pacgomme
+	if typeDeCaseAvant == 3 or typeDeCaseAvant == 4: #il y a une pacgomme ou une SUPER pacgomme
+		if typeDeCaseAvant == 4:
+			constantes.superMode = True
+			
 		nbPacGommeEat += 1
 		affichage.delete(fen, listePacGommes[caseY][caseX])
+		typeDeCaseAvant = 0
+		
 		
 	jeu[caseY][caseX] = 2
 	print(nbPacGommeEat)
@@ -106,23 +112,25 @@ def changerMatrice(jeu, affichage, listePacGommes, fen):
 
 
 def go_left(event =None):
-	global direction
-	direction = constantes.GAUCHE
+	global choixUtilisateur
+	choixUtilisateur = constantes.GAUCHE
 	
 	
 def go_right(event =None):
-	global direction
-	direction = constantes.DROITE
+	global choixUtilisateur
+	choixUtilisateur = constantes.DROITE
 
 	
 def go_up(event =None):
-	global direction
-	direction = constantes.HAUT
+	global choixUtilisateur
+	choixUtilisateur = constantes.HAUT
+	menu.menuHaut = True
 	
 
 def go_down(event =None):
-	global direction
-	direction = constantes.BAS
+	global choixUtilisateur
+	choixUtilisateur = constantes.BAS
+	menu.menuBas = True
 	
 	
 def gestionDirection(jeu):
@@ -140,10 +148,20 @@ def gestionDirection(jeu):
 	if jeu[caseY+1][caseX] in CASE_DEPL:
 		dirPossible.append(constantes.BAS)
 	
-	if direction in dirPossible:
-		return direction
+	if choixUtilisateur in dirPossible:
+		return choixUtilisateur
 	else:
-		return constantes.STOP
+		if direction == constantes.BAS and jeu[caseY+1][caseX] in CASE_DEPL:
+			return direction
+		elif direction == constantes.HAUT and jeu[caseY-1][caseX] in CASE_DEPL:
+			return direction
+		elif direction == constantes.DROITE and jeu[caseY][caseX+1] in CASE_DEPL:
+			return direction
+		elif direction == constantes.GAUCHE and jeu[caseY][caseX-1] in CASE_DEPL:
+			return direction
+		
+
+
 
 
 

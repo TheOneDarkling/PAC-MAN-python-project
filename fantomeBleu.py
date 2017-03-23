@@ -4,12 +4,13 @@ from math import *
 import constantes
 import pac
 
+
 #### ATTRIBUTS
 
 direction = constantes.DROITE
 
 caseX = 9
-caseY = 7
+caseY = 9
 x = caseX*constantes.tailleTile
 y = caseY*constantes.tailleTile
 
@@ -29,18 +30,19 @@ blocageBas = False # Evite que le fantome sois bloqué
 blocageHaut = False
 derniereDirection = constantes.STOP
 
+antiDemiTour = False
 
 #### Fonctions
 
 def init(affichage):
 	import ressources
-	blinky = affichage.create_image(x+(constantes.tailleTile/2), y+(constantes.tailleTile/2), image=ressources.ghr)
-	return blinky
+	inky = affichage.create_image(x+(constantes.tailleTile/2), y+(constantes.tailleTile/2), image=ressources.ghb)
+	return inky
 
 
 
 
-def gestion(affichage, blinky, jeu):
+def gestion(affichage, inky, jeu):
 	global x, y, caseXAvant, caseYAvant, caseX, caseY, choixDirection
 	
 	caseXAvant = caseX #servent a voir si la matrice doit changer
@@ -50,7 +52,7 @@ def gestion(affichage, blinky, jeu):
 	# Actualise les coord avant  le deplacement
 	################
 	
-	x, y = affichage.coords(blinky)
+	x, y = affichage.coords(inky)
 	
 	if (x <= (caseX*constantes.tailleTile-constantes.tailleTile/2) or x >= (caseX+1)*constantes.tailleTile+((constantes.tailleTile/2)+5)):
 		caseX = floor(x/constantes.tailleTile)
@@ -74,15 +76,15 @@ def gestion(affichage, blinky, jeu):
 	vit = constantes.vitesseFantome
 	
 	if direction == constantes.HAUT:
-		affichage.move(blinky, 0, -vit)
+		affichage.move(inky, 0, -vit)
 	elif direction == constantes.BAS:
-		affichage.move(blinky, 0, vit)
+		affichage.move(inky, 0, vit)
 	elif direction == constantes.DROITE:
-		affichage.move(blinky, vit, 0)
+		affichage.move(inky, vit, 0)
 	elif direction == constantes.GAUCHE:
-		affichage.move(blinky, -vit, 0)
+		affichage.move(inky, -vit, 0)
 	else:
-		affichage.move(blinky, 0, 0)
+		affichage.move(inky, 0, 0)
 		
 		
 	################
@@ -96,7 +98,8 @@ def gestion(affichage, blinky, jeu):
 	
 	if direction == constantes.STOP:
 		choixDirection = True
-	
+		
+	return True
 		
 	
 	
@@ -113,10 +116,11 @@ def changerMatrice(jeu):
 	"""if typeDeCaseAvant == 2: # Si le fantome touche pacman
 		constantes.partiePerdu = True
 	"""
-	if typeDeCaseAvant == 8 or typeDeCaseAvant == 7 or typeDeCaseAvant == 6 : # Si le fantome touche un autre fantome
+
+	if typeDeCaseAvant == 8 or typeDeCaseAvant == 5 or typeDeCaseAvant == 6 : # Si le fantome touche un autre fantome
 		typeDeCaseAvant = 0
 		
-	jeu[caseY][caseX] = 5
+	jeu[caseY][caseX] = 7
 
 	
 	
@@ -139,18 +143,21 @@ def gestionDirection(jeu):
 	if jeu[caseY+1][caseX] in CASE_DEPL:
 		dirPossible.append(constantes.BAS)
 	
-	direction = choixDeDirection(dirPossible)
+	direction = choixDeDirection(dirPossible, jeu)
 	dirPossible.clear()
 
 
 
 
 
-def choixDeDirection(dirPossible):
+def choixDeDirection(dirPossible, jeu):
 	global derniereDirection
-
-	distanceX = pac.positionX() - caseX
-	distanceY = pac.positionY() - caseY
+	#pour tendre une embuscade il faur détérminer un point devant pac man
+	
+	pointEmbu = creationEmbu(dirPossible, jeu)
+	
+	distanceX = pointEmbu[0] - caseX
+	distanceY = pointEmbu[1] - caseY
 	
 	direction = constantes.STOP
 	
@@ -199,22 +206,23 @@ def choixDeDirection(dirPossible):
 	derniereDirection = direction
 			
 	return direction
-
-
-
-
-
-def spawn(blinky, affichage, fen, jeu):
-	import ressources
-	affichage.delete(fen, blinky)
-	caseX = 9
-	caseY = 7
-	x = caseX*constantes.tailleTile
-	y = caseY*constantes.tailleTile
-	blinky = affichage.create_image(x+(constantes.tailleTile/2), y+(constantes.tailleTile/2), image=ressources.ghr)
-	return blinky
 	
 
+
+
+def spawn(inky, affichage, fen, jeu):
+	import ressources
+	global caseX, caseY, typeDeCaseAvant
+	affichage.delete(fen, inky)
+	caseX = 9
+	caseY = 7
+	typeDeCaseAvant = jeu[caseY][caseX]
+	jeu[caseY][caseX] = 7
+	x = caseX*constantes.tailleTile
+	y = caseY*constantes.tailleTile
+	inky = affichage.create_image(x+(constantes.tailleTile/2), y+(constantes.tailleTile/2), image=ressources.ghb)
+	return inky
+	
 
 
 def directionOpp(direction):
@@ -226,6 +234,66 @@ def directionOpp(direction):
 		return constantes.GAUCHE
 	elif direction == constantes.GAUCHE:
 		return constantes.DROITE
+
+
+
+
+
+def creationEmbu(dirPossible, jeu):
+	ptX = 0
+	ptY = 0
+	pointEmbu = [ptX, ptY]
+	
+	dist = 0 # distance de l'embu
+	
+	
+	# cherche le croissement suivant la direction de pacman
+	
+	if pac.direction == constantes.DROITE or pac.direction == constantes.GAUCHE: ## Deplacement horizontal
+		pointEmbu[1] = pac.positionY()
+		ptX = pac.positionX()
+	else:
+		pointEmbu[0] = pac.positionX()
+		ptY = pac.positionY()
+		
+		
+
+	if pac.direction == constantes.HAUT and constantes.HAUT in dirPossible: ## HAUT
+		while jeu[ptY-dist][ptX] != 1:
+			dist += 1
+		pointEmbu[1] = ptY-dist
+	elif pac.direction == constantes.HAUT:
+		pointEmbu[1] = ptY
+		
+		
+		
+	if pac.direction == constantes.BAS and constantes.BAS in dirPossible: ## BAS
+		while jeu[ptY+dist][ptX] != 1:
+			dist += 1
+		pointEmbu[1] = ptY+dist
+	elif pac.direction == constantes.BAS:
+		pointEmbu[1] = ptY
+		
+		
+		
+	if pac.direction == constantes.GAUCHE and constantes.GAUCHE in dirPossible: ## GAUCHE
+		while jeu[ptY][ptX-dist] != 1:
+			dist += 1
+		pointEmbu[0] = ptX-dist
+	elif pac.direction == constantes.GAUCHE:
+		pointEmbu[0] = ptX	
+		
+		
+		
+	if pac.direction == constantes.DROITE and constantes.DROITE in dirPossible: ## DROITE
+		while jeu[ptY][ptX+dist] != 1:
+			dist += 1
+		pointEmbu[0] = ptX+dist
+	elif pac.direction == constantes.DROITE:
+		pointEmbu[0] = ptX	
+	
+	
+	return pointEmbu
 
 
 

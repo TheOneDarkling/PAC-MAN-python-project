@@ -1,15 +1,17 @@
 
 from tkinter import *
 from math import *
+import random
 import constantes
 import pac
+
 
 #### ATTRIBUTS
 
 direction = constantes.DROITE
 
-caseX = 9
-caseY = 7
+caseX = 8
+caseY = 9
 x = caseX*constantes.tailleTile
 y = caseY*constantes.tailleTile
 
@@ -29,18 +31,19 @@ blocageBas = False # Evite que le fantome sois bloqué
 blocageHaut = False
 derniereDirection = constantes.STOP
 
+antiDemiTour = False
 
 #### Fonctions
 
 def init(affichage):
 	import ressources
-	blinky = affichage.create_image(x+(constantes.tailleTile/2), y+(constantes.tailleTile/2), image=ressources.ghr)
-	return blinky
+	clyde = affichage.create_image(x+(constantes.tailleTile/2), y+(constantes.tailleTile/2), image=ressources.gho)
+	return clyde
 
 
 
 
-def gestion(affichage, blinky, jeu):
+def gestion(affichage, clyde, jeu):
 	global x, y, caseXAvant, caseYAvant, caseX, caseY, choixDirection
 	
 	caseXAvant = caseX #servent a voir si la matrice doit changer
@@ -50,7 +53,7 @@ def gestion(affichage, blinky, jeu):
 	# Actualise les coord avant  le deplacement
 	################
 	
-	x, y = affichage.coords(blinky)
+	x, y = affichage.coords(clyde)
 	
 	if (x <= (caseX*constantes.tailleTile-constantes.tailleTile/2) or x >= (caseX+1)*constantes.tailleTile+((constantes.tailleTile/2)+5)):
 		caseX = floor(x/constantes.tailleTile)
@@ -74,15 +77,15 @@ def gestion(affichage, blinky, jeu):
 	vit = constantes.vitesseFantome
 	
 	if direction == constantes.HAUT:
-		affichage.move(blinky, 0, -vit)
+		affichage.move(clyde, 0, -vit)
 	elif direction == constantes.BAS:
-		affichage.move(blinky, 0, vit)
+		affichage.move(clyde, 0, vit)
 	elif direction == constantes.DROITE:
-		affichage.move(blinky, vit, 0)
+		affichage.move(clyde, vit, 0)
 	elif direction == constantes.GAUCHE:
-		affichage.move(blinky, -vit, 0)
+		affichage.move(clyde, -vit, 0)
 	else:
-		affichage.move(blinky, 0, 0)
+		affichage.move(clyde, 0, 0)
 		
 		
 	################
@@ -96,7 +99,8 @@ def gestion(affichage, blinky, jeu):
 	
 	if direction == constantes.STOP:
 		choixDirection = True
-	
+		
+	return True
 		
 	
 	
@@ -113,10 +117,12 @@ def changerMatrice(jeu):
 	"""if typeDeCaseAvant == 2: # Si le fantome touche pacman
 		constantes.partiePerdu = True
 	"""
-	if typeDeCaseAvant == 8 or typeDeCaseAvant == 7 or typeDeCaseAvant == 6 : # Si le fantome touche un autre fantome
+		
+		
+	if typeDeCaseAvant == 5 or typeDeCaseAvant == 7 or typeDeCaseAvant == 6 : # Si le fantome touche un autre fantome
 		typeDeCaseAvant = 0
 		
-	jeu[caseY][caseX] = 5
+	jeu[caseY][caseX] = 8
 
 	
 	
@@ -147,74 +153,32 @@ def gestionDirection(jeu):
 
 
 def choixDeDirection(dirPossible):
-	global derniereDirection
-
-	distanceX = pac.positionX() - caseX
-	distanceY = pac.positionY() - caseY
+	""" Ce fantome se deplace de maniere aléatoire"""
+	global direction, antiDemiTour
 	
-	direction = constantes.STOP
+	if len(dirPossible) > 2 or not(direction in dirPossible):
+		varAlea = random.randrange(len(dirPossible))
+		direction = dirPossible[varAlea]
 	
-	if abs(distanceX) > abs(distanceY): # Si plus grande distance en X
-		if distanceX > 0 and (constantes.DROITE in dirPossible):
-			direction = constantes.DROITE
-		elif distanceX > 0: # sinon HAUT ou BAS
-			if distanceY > 0 and (constantes.BAS in dirPossible):
-				direction = constantes.BAS
-			else:
-				direction = constantes.HAUT
-		elif distanceX < 0 and (constantes.GAUCHE in dirPossible):
-			direction = constantes.GAUCHE
-		elif distanceX < 0:
-			if distanceY > 0 and (constantes.BAS in dirPossible):
-				direction = constantes.BAS
-			else:
-				direction = constantes.HAUT
-	elif abs(distanceX) < abs(distanceY): # Si plus grande distance en Y
-		if distanceY >= 0 and (constantes.BAS in dirPossible):
-			direction = constantes.BAS
-		elif distanceY > 0 and (constantes.DROITE in dirPossible):
-			if distanceX > 0:
-				direction = constantes.DROITE
-			else:
-				direction = constantes.GAUCHE
-		elif distanceY < 0 and (constantes.HAUT in dirPossible):
-			direction = constantes.HAUT
-		elif distanceY < 0:
-			if distanceX > 0 and (constantes.DROITE in dirPossible):
-				direction = constantes.DROITE
-			else:
-				direction = constantes.GAUCHE
-	else: # Si meme distance
-		if distanceY > 0 and (constantes.BAS in dirPossible):
-			direction = constantes.BAS
-		elif distanceX > 0 and (constantes.DROITE in dirPossible):
-			direction = constantes.DROITE
-		elif distanceY < 0 and (constantes.HAUT in dirPossible):
-			direction = constantes.BAS
-		elif distanceX < 0 and (constantes.GAUCHE in dirPossible):
-			direction = constantes.GAUCHE
-		else:
-			direction = constantes.STOP
-		
-	derniereDirection = direction
-			
+	
 	return direction
+	
 
 
 
-
-
-def spawn(blinky, affichage, fen, jeu):
+def spawn(clyde, affichage, fen, jeu):
 	import ressources
-	affichage.delete(fen, blinky)
+	global caseX, caseY, typeDeCaseAvant
+	affichage.delete(fen, clyde)
 	caseX = 9
 	caseY = 7
+	typeDeCaseAvant = jeu[caseY][caseX]
+	jeu[caseY][caseX] = 8
 	x = caseX*constantes.tailleTile
 	y = caseY*constantes.tailleTile
-	blinky = affichage.create_image(x+(constantes.tailleTile/2), y+(constantes.tailleTile/2), image=ressources.ghr)
+	blinky = affichage.create_image(x+(constantes.tailleTile/2), y+(constantes.tailleTile/2), image=ressources.gho)
 	return blinky
 	
-
 
 
 def directionOpp(direction):
